@@ -56,3 +56,60 @@ instance_groups:
   Backups will be triggered according to this schedule. See [robfig/cron](https://godoc.org/github.com/robfig/cron) for cron expression syntax.
 
 The service-backup is co-located on the `redis-server` instance group.
+
+### Correlating BOSH instances to Cloud Foundry service instances
+
+BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the Service Author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
+
+`{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
+
+Add the optional `service_identifier_executable` key to your manifest:
+
+```yml
+properties:
+  service-backup:
+    service_identifier_executable: replace-with-service-identifier-executable #optional
+```
+
+### Disabling Service backups
+
+Backups can be disabled by removing the `service-backup` section from your manifest and then redeploying. You can still leave the job on your instance group if you wish.
+
+## Backup destinations
+
+In the above example, the destination has been set as s3, however the Azure blobstore and SCP are also supported. To change the backup destination change the manifest `destination` value:
+
+### Azure
+
+```yml
+properties:
+  service-backup:
+    destination:
+      azure:
+        storage_account: <storage account>
+        storage_access_key: <storage key>
+        container: <container name>
+        path: <path in container>
+```
+
+### SCP
+
+```yml
+properties:
+  service-backup:
+    scp:
+      user: <ssh username>
+      server: <ssh server>
+      destination: <path to upload to on server>
+      key: |
+        -----BEGIN RSA PRIVATE KEY-----
+          ...
+        -----END RSA PRIVATE KEY-----
+      port: <ssh port. Almost always 22>
+```
+
+## Locating the backups
+
+The tool will create a date-based folder structure in your destination bucket / folder as follows: `YYYY/MM/DD` and uses the BOSH VM it is running on to calculate the date. For example if your VM is using UTC time, then the folder structure will reflect this.
+
+For example, on S3 the provided path is appended with the current date such that the resultant path is `/my/remote/path/inside/bucket/YYYY/MM/DD/` and hence the backups are accessible at `s3://my-bucket-name/my/remote/path/inside/bucket/YYYY/MM/DD/`.
