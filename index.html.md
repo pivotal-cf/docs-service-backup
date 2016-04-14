@@ -127,3 +127,121 @@ properties:
 The tool will create a date-based folder structure in your destination bucket / folder as follows: `YYYY/MM/DD` and uses the BOSH VM it is running on to calculate the date. For example if your VM is using UTC time, then the folder structure will reflect this.
 
 For example, on S3 the provided path is appended with the current date such that the resultant path is `/my/remote/path/inside/bucket/YYYY/MM/DD/` and hence the backups are accessible at `s3://my-bucket-name/my/remote/path/inside/bucket/YYYY/MM/DD/`.
+
+<a id="contributing"></a>
+## Contributing to Service Backup
+
+We welcome contributions to Service Backup.
+
+Below are the steps to clone and work on the Service Backup repo, however, if you have an idea for an improvement, we encourage you to get in touch with us via GitHub, Slack, or email, and we will help you.
+
+<a id="setting-up-development"></a>
+### Setting up development environment
+
+- **Clone the repo**:
+
+    ```bash
+    git clone git@github.com:pivotal-cf-experimental/service-backup-release.git
+    ```
+
+    Note that development is carried out on a branch called `develop`; this will be checked out by default.
+
+This repository is the BOSH release, and contains the Go code for the service backup daemon and its dependencies as submodules.
+
+- **Ensure the submodules are up to date**:
+
+    ```bash
+    cd service-backup-release
+    git submodule update --init --recursive
+    ```
+
+- **Set the `$GOPATH`**
+
+    The `$GOPATH` should be set to the release directory. To do this automatically, we recommend using `direnv`. In this example, we have used homebrew:
+
+    ```bash
+    brew install direnv
+    ```
+
+<a id="deploying-release"></a>
+### Deploying a release
+
+- **Update the package spec file**
+
+    When adding or removing submodules to the BOSH release, use the `sync-package-specs` helper script as shown below:
+
+    ```bash
+    ./scripts/sync-package-specs
+    ```
+
+- **Create your own standalone (i.e. not co-located) BOSH manifest**
+
+    An example of a bosh-lite manifest can be found at `manifests/bosh-lite-deployment.yml.template`.
+
+    The values in the first section must be updated with your own `director_uuid` and `properties`.
+
+- **Deploy the standalone BOSH release**
+
+    As above, the example provided assumes you are using `bosh-lite`:
+
+    ```bash
+    bosh target lite # or the alias/IP for your BOSH lite director
+    bosh deployment manifests/bosh-lite-deployment.yml
+    bosh create release --name service-backup
+    bosh upload release
+    bosh deploy
+    ```
+
+<a id="committing-changes"></a>
+### Committing your changes
+
+- **Update the .gitmodules file**
+
+    When adding or removing submodules to the BOSH release, use the `sync-submodule-config` helper script as shown below:
+
+    ```bash
+    ./scripts/sync-submodule-config
+    ```
+
+    This script will overwrite the `.gitmodules` file. Due to a [bug in gosub](https://github.com/vito/gosub/issues/1), it will replace `git@` with
+    `https://`. This needs to be manually corrected for any private repositories, e.g. `pivotal-cf-experimental/service-backup`.
+
+- **Send a pull request**
+
+    Set up a pull request to the service-backup repository. Remember that development is carried out on a branch called `develop`; please submit to this branch!
+
+
+<a id="aws-backup"></a>
+## AWS Backup User Permissions
+
+First, create a new AWS user to perform backups under the Identity & Access Management (IAM) page.
+Copy this user's Access Key ID and Secret into the service-backup manifest section listed above.
+
+Next, create a new custom policy (IAM > Policies > Create Policy > Create Your Own Policy) and paste in the following permissions:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ServiceBackupPolicy",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:ListMultipartUploadParts",
+        "s3:CreateBucket",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::MY_BUCKET_NAME/*",
+        "arn:aws:s3:::MY_BUCKET_NAME"
+      ]
+    }
+  ]
+}
+```
+
+The `s3:CreateBucket` permission is required because the tool will attempt to create the bucket if it does not already exist. If the desired bucket already exists, the `s3:CreateBucket` permission is not required.
+
+Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > Attach).
