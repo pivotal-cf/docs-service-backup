@@ -55,15 +55,25 @@ instance_groups:
     release: service-backup
 ```
 
-- **source_executable**
+<a id="configuring-backup-schedule"></a>
+#### Configuring the backup schedule
 
-  Executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. This is mandatory at the moment, so use a dummy when this is not required (e.g. `true`).
+Backups will be triggered according to the schedule given by the `cron_schedule` property. See [robfig/cron](https://godoc.org/github.com/robfig/cron) for cron expression syntax.
 
-- **cron_schedule**
+<a id="defining-files"></a>
+#### Defining the files to be be backed up
 
-  Backups will be triggered according to this schedule. See [robfig/cron](https://godoc.org/github.com/robfig/cron) for cron expression syntax.
+The `source_folder` property names a local path from which backups are uploaded. All files in here are uploaded.
 
-The service-backup is co-located on the `redis-server` instance group.
+<a id="preparing-files"></a>
+#### Preparing the files to be backed up
+
+The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. This is mandatory at the moment, so use a dummy when this is not required (e.g. `/bin/true`). Tokens are split on spaces; first is command to execute and remaining are passed as args to command.
+
+<a id="cleaning-files"></a>
+#### Cleaning up the files which were backed up
+
+The optional `cleanup_executable` property names a local executable to cleanup backups. Tokens are split on spaces; first is command to execute and remaining are passed as args to command.
 
 <a id="correlating"></a>
 #### Correlating BOSH instances to Cloud Foundry service instances
@@ -72,7 +82,7 @@ BOSH operators might want to correlate BOSH-deployed VM instances with CF servic
 
 `{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
 
-Add the optional `service_identifier_executable` key to your manifest:
+Add the optional `service_identifier_executable` key to your manifest (tokens are split on spaces; first is command to execute and remaining are passed as args to command):
 
 ```yml
 properties:
