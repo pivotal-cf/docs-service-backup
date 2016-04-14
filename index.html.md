@@ -6,8 +6,8 @@ author: London Enablement Team
 
 BOSH operators running services (e.g. Redis service broker for Cloud Foundry) may want to back up certain files from the virtual machines running these services so that they can restore them after a disaster.
 
-<a id="service-backup-bosh-release"></a>
-## Service Backup BOSH release
+<a id="configuration"></a>
+## Configuration
 
 The Service Backup BOSH release backs up a directory on the instance VM it is located on to one of several supported destination types. The supported destination types are AWS S3, Azure blobstore, and SCP.
 
@@ -88,7 +88,50 @@ Backups can be disabled by removing the `service-backup` section from your manif
 <a id="backup-destinations"></a>
 ### Backup destinations
 
-In the above example, the destination has been set as s3, however the Azure blobstore and SCP are also supported. To change the backup destination change the manifest `destination` value:
+Service Backup supports AWS S3, Azure blobstore, and SCP. To change the backup destination change the manifest `destination` value:
+
+<a id="s3"></a>
+#### S3
+
+```yml
+properties:
+  service-backup:
+    destination:
+      s3:
+        bucket_name: <bucket>
+        bucket_path: <path in bucket>
+        access_key_id: <aws access key>
+        secret_access_key: <aws secret key>
+```
+
+Ensure that the IAM user has the right permissions. Create a new custom policy (IAM > Policies > Create Policy > Create Your Own Policy) and paste in the following permissions:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ServiceBackupPolicy",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:ListMultipartUploadParts",
+        "s3:CreateBucket",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::MY_BUCKET_NAME/*",
+        "arn:aws:s3:::MY_BUCKET_NAME"
+      ]
+    }
+  ]
+}
+```
+
+The `s3:CreateBucket` permission is required because the tool will attempt to create the bucket if it does not already exist. If the desired bucket already exists, the `s3:CreateBucket` permission is not required.
+
+Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > Attach).
 
 <a id="azure"></a>
 #### Azure
@@ -121,44 +164,12 @@ properties:
       port: <ssh port. Almost always 22>
 ```
 
+<a id="operating"></a>
+## Operating
+
 <a id="locating-the-backups"></a>
 ### Locating the backups
 
 The tool will create a date-based folder structure in your destination bucket / folder as follows: `YYYY/MM/DD` and uses the BOSH VM it is running on to calculate the date. For example if your VM is using UTC time, then the folder structure will reflect this.
 
 For example, on S3 the provided path is appended with the current date such that the resultant path is `/my/remote/path/inside/bucket/YYYY/MM/DD/` and hence the backups are accessible at `s3://my-bucket-name/my/remote/path/inside/bucket/YYYY/MM/DD/`.
-
-<a id="aws-backup"></a>
-## AWS Backup User Permissions
-
-First, create a new AWS user to perform backups under the Identity & Access Management (IAM) page.
-Copy this user's Access Key ID and Secret into the service-backup manifest section listed above.
-
-Next, create a new custom policy (IAM > Policies > Create Policy > Create Your Own Policy) and paste in the following permissions:
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "ServiceBackupPolicy",
-      "Effect": "Allow",
-      "Action": [
-        "s3:ListBucket",
-        "s3:ListBucketMultipartUploads",
-        "s3:ListMultipartUploadParts",
-        "s3:CreateBucket",
-        "s3:PutObject"
-      ],
-      "Resource": [
-        "arn:aws:s3:::MY_BUCKET_NAME/*",
-        "arn:aws:s3:::MY_BUCKET_NAME"
-      ]
-    }
-  ]
-}
-```
-
-The `s3:CreateBucket` permission is required because the tool will attempt to create the bucket if it does not already exist. If the desired bucket already exists, the `s3:CreateBucket` permission is not required.
-
-Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > Attach).
