@@ -68,7 +68,7 @@ The `source_folder` property names a local path from which backups are uploaded.
 <a id="preparing-files"></a>
 #### Preparing the files to be backed up
 
-The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. This is mandatory at the moment, so use a dummy when this is not required (e.g. `/bin/true`). Tokens are split on spaces; first is command to execute and remaining are passed as args to command.
+The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment. This property is mandatory at the moment, so use a dummy when this is not required (e.g. `/bin/true`). Tokens are split on spaces; first is command to execute and remaining are passed as args to command.
 
 <a id="cleaning-files"></a>
 #### Cleaning up the files which were backed up
