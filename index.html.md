@@ -143,6 +143,8 @@ The `s3:CreateBucket` permission is required because the tool will attempt to cr
 
 Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > Attach).
 
+By default, backups are sent to AWS S3. To use an S3-compatible blobstore like RiakS2, set the `endpoint_url` property.
+
 <a id="azure"></a>
 #### Azure
 
@@ -156,6 +158,8 @@ properties:
         container: <container name>
         path: <path in container>
 ```
+
+By default, backups are sent to the public Azure blobstore. To use an on-premise blobstore, set the `blob_store_base_url` property.
 
 <a id="scp"></a>
 #### SCP
@@ -171,7 +175,7 @@ properties:
         -----BEGIN RSA PRIVATE KEY-----
           ...
         -----END RSA PRIVATE KEY-----
-      port: <ssh port. Almost always 22>
+      port: <optional ssh port. Defaults to 22>
 ```
 
 <a id="operating"></a>
