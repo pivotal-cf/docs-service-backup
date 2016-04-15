@@ -98,7 +98,7 @@ Backups can be disabled by removing the `service-backup` section from your manif
 <a id="backup-destinations"></a>
 ### Backup destinations
 
-Service Backup supports AWS S3, Azure blobstore, and SCP. To change the backup destination change the manifest `destination` value:
+Service Backup supports S3 (AWS, Ceph s3, Swift w/ S3 compatibility module), Azure blobstore, and SCP. To change the backup destination change the manifest `destination` value:
 
 <a id="s3"></a>
 #### S3
@@ -114,7 +114,9 @@ properties:
         secret_access_key: <aws secret key>
 ```
 
-Ensure that the IAM user has the right permissions. Create a new custom policy (IAM > Policies > Create Policy > Create Your Own Policy) and paste in the following permissions:
+##### AWS S3
+
+If you are using AWS ensure that the IAM user has the right permissions. Create a new custom policy (IAM > Policies > Create Policy > Create Your Own Policy) and paste in the following permissions:
 
 ```json
 {
