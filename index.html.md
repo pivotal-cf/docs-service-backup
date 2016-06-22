@@ -90,6 +90,14 @@ properties:
     service_identifier_executable: replace-with-service-identifier-executable #optional
 ```
 
+<a id="manual-backup"></a>
+#### Triggering manual service backups
+
+BOSH operators might want to trigger a one-off, manual backup. To do this:
+
+1. ssh onto a BOSH-deployed VM that has a service-backup job running on it.
+1. Execute `/var/vcap/jobs/service-backup/bin/manual-backup`.
+
 <a id="disabling"></a>
 #### Disabling Service Backups
 
