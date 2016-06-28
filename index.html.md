@@ -24,14 +24,15 @@ Service Backup is designed to be co-located on service instance VMs, and must be
 <a id="adding-service"></a>
 #### Adding service backups to your service deployment
 
-Shown below is an template manifest, adding an S3 backup to a Redis service deployment. For further information on changing the backup destination, see [link].
+Shown below is an template manifest, adding an S3 backup destination to a Redis service deployment. For further information on changing the backup destination, see [link].
 
 ```yml
 ---
 properties:
   service-backup:
-    destination:
-      s3:
+    destinations:
+    - type: s3
+      config:
         bucket_name: <bucket>
         bucket_path: <path in bucket>
         access_key_id: <aws access key>
@@ -106,7 +107,7 @@ Backups can be disabled by removing the `service-backup` section from your manif
 <a id="backup-destinations"></a>
 ### Backup destinations
 
-Service Backup supports S3 (AWS, Ceph s3, Swift w/ S3 compatibility module), Azure blobstore, and SCP. To change the backup destination change the manifest `destination` value:
+Service Backup supports S3 (AWS, Ceph s3, Swift w/ S3 compatibility module), Azure blobstore, and SCP. To change the backup destination change the manifest `destinations` value:
 
 <a id="s3"></a>
 #### S3
@@ -114,8 +115,9 @@ Service Backup supports S3 (AWS, Ceph s3, Swift w/ S3 compatibility module), Azu
 ```yml
 properties:
   service-backup:
-    destination:
-      s3:
+    destinations:
+    - type: s3
+      config:
         bucket_name: <bucket>
         bucket_path: <path in bucket>
         access_key_id: <aws access key>
@@ -161,8 +163,9 @@ By default, backups are sent to AWS S3. To use an S3-compatible blobstore like R
 ```yml
 properties:
   service-backup:
-    destination:
-      azure:
+    destinations:
+    - type: azure
+      config:
         storage_account: <storage account>
         storage_access_key: <storage key>
         container: <container name>
@@ -177,16 +180,47 @@ By default, backups are sent to the public Azure blobstore. To use an on-premise
 ```yml
 properties:
   service-backup:
-    scp:
-      user: <ssh username>
-      server: <ssh server>
-      destination: <path to upload to on server>
-      key: |
-        -----BEGIN RSA PRIVATE KEY-----
-          ...
-        -----END RSA PRIVATE KEY-----
-      port: <optional ssh port. Defaults to 22>
+    destinations:
+    - type: scp
+      config:
+        user: <ssh username>
+        server: <ssh server>
+        destination: <path to upload to on server>
+        key: |
+          -----BEGIN RSA PRIVATE KEY-----
+            ...
+          -----END RSA PRIVATE KEY-----
+        port: <optional ssh port. Defaults to 22>
 ```
+
+<a id="multiple-destinations"></a>
+#### Multiple destinations
+
+```yml
+properties:
+  service-backup:
+    destinations:
+    - type: s3
+      config:
+        bucket_name: <bucket>
+        bucket_path: <path in bucket>
+        access_key_id: <aws access key>
+        secret_access_key: <aws secret key>
+    - type: scp
+      config:
+        user: <ssh username>
+        server: <ssh server>
+        destination: <path to upload to on server>
+        key: |
+          -----BEGIN RSA PRIVATE KEY-----
+            ...
+          -----END RSA PRIVATE KEY-----
+        port: <optional ssh port. Defaults to 22>
+```
+
+The tool can be provided with configuration for multiple destinations in the `destinations` property. The tool will upload backups to all the provided destinations sequentially.
+
+You can configure multiple destinations of the same type, for example: two S3 buckets in different regions.
 
 <a id="operating"></a>
 ## Operating
