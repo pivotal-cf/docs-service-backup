@@ -32,6 +32,7 @@ properties:
   service-backup:
     destinations:
     - type: s3
+      name: <destination name> # optional
       config:
         bucket_name: <bucket>
         bucket_path: <path in bucket>
@@ -89,6 +90,15 @@ Add the optional `service_identifier_executable` key to your manifest (tokens ar
 properties:
   service-backup:
     service_identifier_executable: replace-with-service-identifier-executable #optional
+```
+
+<a id="naming-backup-destinations"></a>
+#### Naming backup destinations
+
+Each destination can be given an optional `name` property. This will appear in the log messages for uploads to that destination. For example:
+
+```
+{ "timestamp":"1467629245.010814428", "source":"ServiceBackup", "message":"ServiceBackup.WithIdentifier.about to upload /path/to/file to S3 remote path bucket_name/2016/07/04", "log_level":1, "data": { "destination_name": "some-destination-name", "identifier": "service_identifier", "session":"1" } }
 ```
 
 <a id="manual-backup"></a>
