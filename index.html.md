@@ -82,7 +82,7 @@ The optional `cleanup_executable` property names a local executable to cleanup b
 
 BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the Service Author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
 
-`{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
+`{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
 
 Add the optional `service_identifier_executable` key to your manifest (tokens are split on spaces; first is command to execute and remaining are passed as args to command):
 
@@ -98,8 +98,21 @@ properties:
 Each destination can be given an optional `name` property. This will appear in the log messages for uploads to that destination. For example:
 
 ```
-{ "timestamp":"1467629245.010814428", "source":"ServiceBackup", "message":"ServiceBackup.WithIdentifier.about to upload /path/to/file to S3 remote path bucket_name/2016/07/04", "log_level":1, "data": { "destination_name": "some-destination-name", "identifier": "service_identifier", "session":"1" } }
+{ "timestamp":"1467629245.010814428", "source":"ServiceBackup", "message":"ServiceBackup.WithIdentifier.about to upload /path/to/file to S3 remote path bucket_name/2016/07/04", "log_level":1, "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "destination_name": "some-destination-name", "identifier": "service_identifier", "session":"1" } }
 ```
+
+<a id="identifying-logs-for-a-backup-run"></a>
+#### Identifying logs for a backup run
+
+The log lines of a particular backup run can be identified by correlating their unique `backup_guid` For example
+
+```
+{"timestamp":"1467649696.229321241","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
+{"timestamp":"1467649696.229343414","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup completed successfully","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","duration_in_seconds":8.081000000000001e-06,"identifier":"service_identifier","session":"1","size_in_bytes":200
+{"timestamp":"1467649696.229365349","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1}}
+{"timestamp":"1467649696.232805967","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup debug info","log_level":0,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","cmd":"creator-cmd","identifier":"service_identifier","out":"Cleanup Complete\n","session":"1"}}
+```
+
 
 <a id="manual-backup"></a>
 #### Triggering manual service backups
