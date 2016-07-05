@@ -70,7 +70,7 @@ The `source_folder` property names a local path from which backups are uploaded.
 <a id="preparing-files"></a>
 #### Preparing the files to be backed up
 
-The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment. Tokens are split on spaces; first is command to execute and remaining are passed as args to command. This property is optional. If the field is not specified, it will simply be ignored and nothing will be executed. 
+The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment. Tokens are split on spaces; first is command to execute and remaining are passed as args to command. This property is optional. If the field is not specified, it will simply be ignored and nothing will be executed.
 
 <a id="cleaning-files"></a>
 #### Cleaning up the files which were backed up
@@ -209,12 +209,15 @@ properties:
         user: <ssh username>
         server: <ssh server>
         destination: <path to upload to on server>
+        fingerprint: <host-fingerprint> #optional
         key: |
           -----BEGIN RSA PRIVATE KEY-----
             ...
           -----END RSA PRIVATE KEY-----
         port: <optional ssh port. Defaults to 22>
 ```
+
+The `fingerprint` field expects the entire output in the format returned by the `ssh-keyscan` utility for the host. If the fingerprint is provided and doesn't match, then the backup will fail. If it's empty then the fingerprint of the host will be requested right before the upload and this would be used instead. A fingerprint should be configured to prevent server spoofing or man-in-the-middle attacks. For more information refer: http://man.openbsd.org/ssh#authentication 
 
 <a id="multiple-destinations"></a>
 #### Multiple destinations
