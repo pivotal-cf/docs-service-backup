@@ -1,5 +1,5 @@
 ---
-title: Service Backups for Pivotal Cloud Foundry&reg;
+title: Service Backups for Pivotal Cloud Foundry
 author: London Enablement Team
 
 ---
@@ -217,7 +217,7 @@ properties:
         port: <optional ssh port. Defaults to 22>
 ```
 
-The `fingerprint` field expects the entire output in the format returned by the `ssh-keyscan` utility for the host. If the fingerprint is provided and doesn't match, then the backup will fail. If it's empty then the fingerprint of the host will be requested right before the upload and this would be used instead. A fingerprint should be configured to prevent server spoofing or man-in-the-middle attacks. For more information refer: http://man.openbsd.org/ssh#authentication 
+The `fingerprint` field expects the entire output in the format returned by the `ssh-keyscan` utility for the host. If the fingerprint is provided and doesn't match, then the backup will fail. If it's empty then the fingerprint of the host will be requested right before the upload and this would be used instead. A fingerprint should be configured to prevent server spoofing or man-in-the-middle attacks. For more information refer: http://man.openbsd.org/ssh#authentication
 
 <a id="multiple-destinations"></a>
 #### Multiple destinations
