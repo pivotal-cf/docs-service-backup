@@ -24,7 +24,7 @@ Service Backup is designed to be co-located on service instance VMs, and must be
 <a id="adding-service"></a>
 #### Adding service backups to your service deployment
 
-Shown below is an template manifest, adding an S3 backup destination to a Redis service deployment. For further information on changing the backup destination, see [link].
+Shown below is an template manifest, adding an S3 backup destination to a Redis service deployment. For further information on changing the backup destination, see [link](#backup-destinations).
 
 ```yml
 ---
