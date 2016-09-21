@@ -6,23 +6,20 @@ author: London Enablement Team
 
 BOSH operators running services (e.g. Redis service broker for Cloud Foundry) may want to back up certain files from the virtual machines running these services so that they can restore them after a disaster.
 
-<a id="configuration"></a>
-## Configuration
+
+## <a id="configuration"></a>Configuration
 
 The Service Backup BOSH release backs up a directory on the instance VM it is located on to one of several supported destination types. The supported destination types are AWS S3, Azure blobstore, and SCP.
 
-<a id="uploading"></a>
-### Uploading a service backup release
+### <a id="uploading"></a>Uploading a service backup release
 
 Service Backup is distributed as a BOSH final release. To upload a release to your BOSH director, upload the latest final release tarball from [Github releases](https://github.com/pivotal-cf-experimental/service-backup-release/releases), or from [S3](https://s3-eu-west-1.amazonaws.com/cf-services-external-builds/service-backup/final/).
 
-<a id="configuring"></a>
-### Configuring the manifest
+### <a id="configuring"></a>Configuring the manifest
 
 Service Backup is designed to be co-located on service instance VMs, and must be included in that service's BOSH deployment manifest.
 
-<a id="adding-service"></a>
-#### Adding service backups to your service deployment
+#### <a id="adding-service"></a>Adding service backups to your service deployment
 
 Shown below is an template manifest, adding an S3 backup destination to a Redis service deployment. For further information on changing the backup destination, see [link](#backup-destinations).
 
@@ -57,28 +54,23 @@ instance_groups:
     release: service-backup
 ```
 
-<a id="configuring-backup-schedule"></a>
-#### Configuring the backup schedule
+#### <a id="configuring-backup-schedule"></a>Configuring the backup schedule
 
 Backups will be triggered according to the schedule given by the `cron_schedule` property. See [robfig/cron](https://godoc.org/github.com/robfig/cron) for cron expression syntax.
 
-<a id="defining-files"></a>
-#### Defining the files to be be backed up
+#### <a id="defining-files"></a>Defining the files to be be backed up
 
 The `source_folder` property names a local path from which backups are uploaded. All files in here are uploaded.
 
-<a id="preparing-files"></a>
-#### Preparing the files to be backed up
+#### <a id="preparing-files"></a>Preparing the files to be backed up
 
 The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment. Tokens are split on spaces; first is command to execute and remaining are passed as args to command. This property is optional. If the field is not specified, it will simply be ignored and nothing will be executed.
 
-<a id="cleaning-files"></a>
-#### Cleaning up the files which were backed up
+#### <a id="cleaning-files"></a>Cleaning up the files which were backed up
 
 The optional `cleanup_executable` property names a local executable to cleanup backups. Tokens are split on spaces; first is command to execute and remaining are passed as args to command.
 
-<a id="correlating"></a>
-#### Correlating BOSH instances to Cloud Foundry service instances
+#### <a id="correlating"></a>Correlating BOSH instances to Cloud Foundry service instances
 
 BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the Service Author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
 
@@ -92,48 +84,42 @@ properties:
     service_identifier_executable: replace-with-service-identifier-executable #optional
 ```
 
-<a id="naming-backup-destinations"></a>
-#### Naming backup destinations
+#### <a id="naming-backup-destinations"></a>Naming backup destinations
 
 Each destination can be given an optional `name` property. This will appear in the log messages for uploads to that destination. For example:
 
-```
+```json
 { "timestamp":"1467629245.010814428", "source":"ServiceBackup", "message":"ServiceBackup.WithIdentifier.about to upload /path/to/file to S3 remote path bucket_name/2016/07/04", "log_level":1, "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "destination_name": "some-destination-name", "identifier": "service_identifier", "session":"1" } }
 ```
 
-<a id="identifying-logs-for-a-backup-run"></a>
-#### Identifying logs for a backup run
+#### <a id="identifying-logs-for-a-backup-run"></a>Identifying logs for a backup run
 
 The log lines of a particular backup run can be identified by correlating their unique `backup_guid` For example
 
-```
+```json
 {"timestamp":"1467649696.229321241","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
-{"timestamp":"1467649696.229343414","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup completed successfully","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","duration_in_seconds":8.081000000000001e-06,"identifier":"service_identifier","session":"1","size_in_bytes":200
-{"timestamp":"1467649696.229365349","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1}}
+{"timestamp":"1467649696.229343414","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup completed successfully","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","duration_in_seconds":8.081000000000001e-06,"identifier":"service_identifier","session":"1","size_in_bytes":200}}
+{"timestamp":"1467649696.229365349","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
 {"timestamp":"1467649696.232805967","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup debug info","log_level":0,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","cmd":"creator-cmd","identifier":"service_identifier","out":"Cleanup Complete\n","session":"1"}}
 ```
 
 
-<a id="manual-backup"></a>
-#### Triggering manual service backups
+#### <a id="manual-backup"></a>Triggering manual service backups
 
 BOSH operators might want to trigger a one-off, manual backup. To do this:
 
 1. ssh onto a BOSH-deployed VM that has a service-backup job running on it.
 1. Execute `/var/vcap/jobs/service-backup/bin/manual-backup`.
 
-<a id="disabling"></a>
-#### Disabling Service Backups
+#### <a id="disabling"></a>Disabling Service Backups
 
 Backups can be disabled by removing the `service-backup` section from your manifest and then redeploying. You can still leave the job on your instance group if you wish.
 
-<a id="backup-destinations"></a>
-### Backup destinations
+### <a id="backup-destinations"></a>Backup destinations
 
 Service Backup supports S3 (AWS, Ceph s3, Swift w/ S3 compatibility module), Azure blobstore, and SCP. To change the backup destination change the manifest `destinations` value:
 
-<a id="s3"></a>
-#### S3
+#### <a id="s3"></a>S3
 
 ```yml
 properties:
@@ -180,8 +166,7 @@ Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > 
 
 By default, backups are sent to AWS S3. To use an S3-compatible blobstore like RiakS2, set the `endpoint_url` property.
 
-<a id="azure"></a>
-#### Azure
+#### <a id="azure"></a>Azure
 
 ```yml
 properties:
@@ -197,8 +182,7 @@ properties:
 
 By default, backups are sent to the public Azure blobstore. To use an on-premise blobstore, set the `blob_store_base_url` property.
 
-<a id="scp"></a>
-#### SCP
+#### <a id="scp"></a>SCP
 
 ```yml
 properties:
@@ -219,8 +203,7 @@ properties:
 
 The `fingerprint` field expects the entire output in the format returned by the `ssh-keyscan` utility for the host. If the fingerprint is provided and doesn't match, then the backup will fail. If it's empty then the fingerprint of the host will be requested right before the upload and this would be used instead. A fingerprint should be configured to prevent server spoofing or man-in-the-middle attacks. For more information refer: http://man.openbsd.org/ssh#authentication
 
-<a id="multiple-destinations"></a>
-#### Multiple destinations
+#### <a id="multiple-destinations"></a>Multiple destinations
 
 ```yml
 properties:
@@ -248,11 +231,9 @@ The tool can be provided with configuration for multiple destinations in the `de
 
 You can configure multiple destinations of the same type, for example: two S3 buckets in different regions.
 
-<a id="operating"></a>
-## Operating
+## <a id="operating"></a>Operating
 
-<a id="locating-the-backups"></a>
-### Locating the backups
+### <a id="locating-the-backups"></a>Locating the backups
 
 The tool will create a date-based folder structure in your destination bucket / folder as follows: `YYYY/MM/DD` and uses the BOSH VM it is running on to calculate the date. For example if your VM is using UTC time, then the folder structure will reflect this.
 
