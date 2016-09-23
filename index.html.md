@@ -38,6 +38,7 @@ properties:
     source_folder: <directory to back up>
     source_executable: <run before each backup> # optional
     cron_schedule: <cron schedule>
+    backup_user: <backup user> # optional
 
 releases:
 - name: redis
@@ -57,6 +58,13 @@ instance_groups:
 #### <a id="configuring-backup-schedule"></a>Configuring the backup schedule
 
 Backups will be triggered according to the schedule given by the `cron_schedule` property. See [robfig/cron](https://godoc.org/github.com/robfig/cron) for cron expression syntax.
+
+#### <a id="configuring-backup-user"></a>Configuring the backup user
+
+By default the service backup process will run as 'vcap'. This can be configured by setting the `backup_user` property.
+
+If you are also providing your own `source_executable` be sure that the `backup_user` you create
+has execute permissions for it.
 
 #### <a id="defining-files"></a>Defining the files to be be backed up
 
