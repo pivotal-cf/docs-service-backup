@@ -246,3 +246,107 @@ You can configure multiple destinations of the same type, for example: two S3 bu
 The tool will create a date-based folder structure in your destination bucket / folder as follows: `YYYY/MM/DD` and uses the BOSH VM it is running on to calculate the date. For example if your VM is using UTC time, then the folder structure will reflect this.
 
 For example, on S3 the provided path is appended with the current date such that the resultant path is `/my/remote/path/inside/bucket/YYYY/MM/DD/` and hence the backups are accessible at `s3://my-bucket-name/my/remote/path/inside/bucket/YYYY/MM/DD/`.
+
+### Monitoring
+
+Here are log messages you may choose to monitor for. The log messages will appear on one line and have been formatted here for easy reading.
+
+#### ServiceBackup.Error scheduling job
+
+This error occurs when the cron schedule is invalid, e.g. "* * * * * 99":
+
+```json
+{
+  "timestamp": "1475848593.233430624",
+  "source": "ServiceBackup",
+  "message": "ServiceBackup.Error scheduling job",
+  "log_level": 2,
+  "data": {
+    "error": "End of range (99) above maximum (6): 99"
+  }
+}
+```
+
+#### ServiceBackup.No destination provided - skipping backup
+
+This warning will be logged when no destination is provided.
+
+```json
+{
+  "timestamp": "1475848311.113728523",
+  "source": "ServiceBackup",
+  "message": "ServiceBackup.No destination provided - skipping backup",
+  "log_level": 1,
+  "data": {}
+}
+```
+
+#### ServiceBackup.Perform backup completed with error
+
+This error will be logged when performing a backup fails, e.g. when the backup command exits status 1:
+
+```json
+{
+  "timestamp": "1475848125.018121719",
+  "source": "ServiceBackup",
+  "message": "ServiceBackup.Perform backup completed with error",
+  "log_level": 2,
+  "data": {
+    "backup_guid": "3ebc4d08-62a3-4919-a02c-841c1afe51d0",
+    "error": "exit status 1"
+  }
+}
+```
+
+#### ServiceBackup.Upload backup completed with error
+
+This error will occur when uploading a backup fails. For example, when the S3 credentials provided are not authorised to create a bucket:
+
+```json
+{
+  "timestamp": "1475847877.024758816",
+  "source": "ServiceBackup",
+  "message": "ServiceBackup.Upload backup completed with error",
+  "log_level": 2,
+  "data": {
+    "backup_guid": "3ae36910-3c1d-4e53-b28e-62105aee1e79",
+    "error": "error in create bucket: exit status 1, output: make_bucket failed: s3://doesnotexist5f7c0f16-bba4-49c9-9f60-371366edea3b An error occurred (AccessDenied) when calling the CreateBucket operation: Access Denied\n"
+  }
+}
+```
+
+And when the SCP host fingerprint is invalid:
+
+```json
+{
+  "timestamp": "1475850125.042400837",
+  "source": "ServiceBackup",
+  "message": "ServiceBackup.Upload backup completed with error",
+  "log_level": 2,
+  "data": {
+    "backup_guid": "7bd784ae-2375-43fd-bd9b-b4a43c2368c2",
+    "error": "error checking if remote path exists: 'exit status 255', output: 'No ECDSA host key is known for localhost and you have requested strict checking.\r\nHost key verification failed.\r\n'"
+  }
+}
+```
+
+#### ServiceBackup.Backup currently in progress
+
+This error will occur when the tool is configured with `exit_if_in_progress: true` and a backup starts whilst another backup is in progress.
+
+```json
+{
+  "timestamp": "1475846665.002161264",
+  "source": "ServiceBackup",
+  "message": "ServiceBackup.Backup currently in progress, exiting. Another backup will not be able to start until this is completed.",
+  "log_level": 2,
+  "data": {
+    "backup_guid": "94ca42ed-c289-4b15-a76a-23fe55d4955b",
+    "error": "backup operation rejected"
+  }
+}
+```
+
+#### ServiceBackup.Error running
+
+An unexpected error has occurred.
