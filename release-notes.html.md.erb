@@ -7,6 +7,14 @@ owner: London Services Enablement
 
 ## <a id="new-features"></a>New Features
 
+- Configurable user for the Service Backup process `backup_user`.
+ - If not set the process runs as VCAP
+
 ## <a id="breaking-changes"></a>Breaking Changes
 
-## <a id="bug-fixes"></a>Issues Resolved
+- Service Backup process now runs as vcap by default or configurable as described above.
+ - If you rely on the process running as `root` you will need to make changes to your service.
+
+ ## <a id="bug-fixes"></a>Issues Resolved
+
+ - Remove system python dependency
