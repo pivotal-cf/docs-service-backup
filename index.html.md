@@ -190,6 +190,30 @@ properties:
 
 By default, backups are sent to the public Azure blobstore. To use an on-premise blobstore, set the `blob_store_base_url` property.
 
+#### <a id="gcs"></a>Google Cloud Storage
+
+```yml
+properties:
+  service-backup:
+    destinations:
+    - type: gcs
+      config:
+        service_account_json: |
+          <GCP service account key JSON literal>
+        project_id: <GCP project ID>
+        bucket_name: <GCP Storage bucket name, does not have to already exist>
+```
+
+The service account must have "Storage Admin" IAM permissions. You can generate the JSON key for a service account with `gcloud iam service-accounts keys create key-lives-here.json --iam-account $IAM_ACCOUNT_ADDRESS`.
+
+If the bucket does not already exist, service-backup will create it. It uses the API default attributes for the bucket, summarised here:
+Bucket ACL rules: for the project that owns the configured service account, owners own the bucket, editors can write the bucket (CRUD objects), viewers can read the bucket.
+Objects in bucket ACL rules: for the project that owns the configured service account, owners and editors can read/write/delete the object, viewers can read the object.
+Location: US
+Storage class: Standard. See [storage classes documentation](https://cloud.google.com/storage/docs/storage-classes).
+
+If you create the bucket in advance, then you must ensure that the service account has access to write it. "Storage Admin" IAM permission should ensure this.
+
 #### <a id="scp"></a>SCP
 
 ```yml
