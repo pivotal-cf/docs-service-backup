@@ -3,7 +3,7 @@ title: Service Backup Release Notes
 owner: London Services Enablement
 ---
 
-# <a id="release-notes"></a>v17.1.0 Release Notes
+# <a id="v17.1.0"></a>v17.1.0
 
 This release adds support for Google Cloud Platform Cloud Storage as a backup destination.
 
@@ -11,30 +11,30 @@ This release adds support for Google Cloud Platform Cloud Storage as a backup de
 
 -  Google Cloud Platform - Cloud Storage now supported as a backup destination
 
-See the [backup desintation documentation](https://docs.pivotal.io/service-backup/#backup-destinations) for more details.
+See the [backup destination documentation](https://docs.pivotal.io/service-backup/#backup-destinations) for more details.
 
 ## <a id="breaking-changes"></a>Breaking Changes
 
 - None
 
- ## <a id="bug-fixes"></a>Issues Resolved
+## <a id="bug-fixes"></a>Issues Resolved
 
- - None
+- None
 
- ---
+---
 
-# <a id="release-notes"></a>v17.0.0 Release Notes
+# <a id="v17.0.0"></a>v17.0.0
 
 ## <a id="new-features"></a>New Features
 
 - Configurable user for the Service Backup process `backup_user`.
- - If not set the process runs as VCAP
+  - If not set the process runs as `vcap`
 
 ## <a id="breaking-changes"></a>Breaking Changes
 
-- Service Backup process now runs as vcap by default or configurable as described above.
- - If you rely on the process running as `root` you will need to make changes to your service.
+- Service Backup process now runs as `vcap` by default or configurable as described above.
+  - If you rely on the process running as `root` you will need to make changes to your service.
 
- ## <a id="bug-fixes"></a>Issues Resolved
+## <a id="bug-fixes"></a>Issues Resolved
 
- - Remove system python dependency
+- Remove system python dependency
