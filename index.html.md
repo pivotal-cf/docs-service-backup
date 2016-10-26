@@ -36,9 +36,13 @@ properties:
         access_key_id: <aws access key>
         secret_access_key: <aws secret key>
     source_folder: <directory to back up>
-    source_executable: <OPTIONAL: run before each backup>
     cron_schedule: <cron schedule>
     backup_user: <OPTIONAL: backup user>
+    source_executable: <OPTIONAL: run before each backup>
+    exit_if_in_progress: <OPTIONAL: exits if another backup is already running. defaults to false>
+    missing_properties_message: <OPTIONAL: message to log when properties are missing in the manifest. defaults to 'Provide these missing fields in your manifest.'>
+    service_identifier_executable: <OPTIONAL: command that prints service instance ID on stdout>
+    cleanup_executable: <OPTIONAL: command to run after each backup>
     alerts: # optional
       product_name: <product name>
       config:
@@ -107,13 +111,7 @@ BOSH operators might want to correlate BOSH-deployed VM instances with CF servic
 
 `{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
 
-Add the optional `service_identifier_executable` key to your manifest (tokens are split on spaces; first is command to execute and remaining are passed as args to command):
-
-```yml
-properties:
-  service-backup:
-    service_identifier_executable: replace-with-service-identifier-executable #optional
-```
+Add the optional `service_identifier_executable` key to your manifest (tokens are split on spaces; first is command to execute and remaining are passed as args to command).
 
 #### <a id="naming-backup-destinations"></a>Naming backup destinations
 
