@@ -29,16 +29,35 @@ properties:
   service-backup:
     destinations:
     - type: s3
-      name: <destination name> # optional
+      name: <OPTIONAL: destination name>
       config:
         bucket_name: <bucket>
         bucket_path: <path in bucket>
         access_key_id: <aws access key>
         secret_access_key: <aws secret key>
     source_folder: <directory to back up>
-    source_executable: <run before each backup> # optional
+    source_executable: <OPTIONAL: run before each backup>
     cron_schedule: <cron schedule>
-    backup_user: <backup user> # optional
+    backup_user: <OPTIONAL: backup user>
+    alerts: # optional
+      product_name: <product name>
+      config:
+        cloud_controller:
+          url: <Cloud Foundry API URL>
+          user: <Cloud Foundry username with SpaceAuditor role in cf_space>
+          password: <Cloud Foundry password>
+        notification_target:
+          url: <Cloud Foundry notification service URL>
+          skip_ssl_validation: <OPTIONAL: ignore TLS certification verification errors>
+          cf_org: <Cloud Foundry org name>
+          cf_space: <Cloud Foundry space name>
+          reply_to: <OPTIONAL: email reply-to address. This is required for some SMTP servers>
+          authentication:
+            uaa:
+              url: <Cloud Foundry UAA URL>
+              client_id: <UAA client ID with authorities to send notifications>
+              client_secret: <UAA client secret>
+        timeout_seconds: <OPTIONAL: default is 60>
 
 releases:
 - name: redis
@@ -78,6 +97,10 @@ The `source_executable` property names an executable to run before each backup. 
 
 The optional `cleanup_executable` property names a local executable to cleanup backups. Tokens are split on spaces; first is command to execute and remaining are passed as args to command.
 
+#### <a id="alerts"></a>Sending an alert when a backup fails
+
+When the optional `alerts` properties are configured an alert will be sent to SpaceDevelopers in the configured `cf_space` when a backup fails. Alerts are sent using the [Cloud Foundry Notifications Service](https://github.com/cloudfoundry-incubator/notifications).
+
 #### <a id="correlating"></a>Correlating BOSH instances to Cloud Foundry service instances
 
 BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the Service Author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
@@ -110,7 +133,6 @@ The log lines of a particular backup run can be identified by correlating their 
 {"timestamp":"1467649696.229365349","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
 {"timestamp":"1467649696.232805967","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup debug info","log_level":0,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","cmd":"creator-cmd","identifier":"service_identifier","out":"Cleanup Complete\n","session":"1"}}
 ```
-
 
 #### <a id="manual-backup"></a>Triggering manual service backups
 
