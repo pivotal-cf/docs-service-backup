@@ -291,9 +291,17 @@ The tool will create a date-based folder structure in your destination bucket / 
 
 For example, on S3 the provided path is appended with the current date such that the resultant path is `/my/remote/path/inside/bucket/YYYY/MM/DD/` and hence the backups are accessible at `s3://my-bucket-name/my/remote/path/inside/bucket/YYYY/MM/DD/`.
 
-### Monitoring
+### <a id="logging"> Logging
+
+Service metrics logs to files in `/var/vcap/sys/log/service-metrics`, and also to syslog.
+
+For forwarding syslog to a third party syslog drain (e.g. papertrail) we recommend co-locating the [syslog-release.](https://github.com/cloudfoundry/syslog-release)
+
+### <a id="monitoring"> Monitoring
 
 Here are log messages you may choose to monitor for. The log messages will appear on one line and have been formatted here for easy reading.
+
+### <a id="troubleshooting"> Troubleshooting
 
 #### ServiceBackup.Error scheduling job
 
