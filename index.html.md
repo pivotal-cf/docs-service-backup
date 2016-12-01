@@ -50,18 +50,15 @@ properties:
           url: <Cloud Foundry API URL>
           user: <Cloud Foundry username with SpaceAuditor role in cf_space>
           password: <Cloud Foundry password>
-        notification_target:
-          url: <Cloud Foundry notification service URL>
-          skip_ssl_validation: <OPTIONAL: ignore TLS certification verification errors>
+        notifications:
+          service_url: <Cloud Foundry notification service URL>
           cf_org: <Cloud Foundry org name>
           cf_space: <Cloud Foundry space name>
           reply_to: <OPTIONAL: email reply-to address. This is required for some SMTP servers>
-          authentication:
-            uaa:
-              url: <Cloud Foundry UAA URL>
-              client_id: <UAA client ID with authorities to send notifications>
-              client_secret: <UAA client secret>
+          client_id: <UAA client ID with authorities to send notifications>
+          client_secret: <UAA client secret>
         timeout_seconds: <OPTIONAL: default is 60>
+        skip_ssl_validation: <OPTIONAL: ignore TLS certification verification errors>
 
 releases:
 - name: redis
