@@ -156,6 +156,7 @@ properties:
         bucket_path: <path in bucket>
         access_key_id: <aws access key>
         secret_access_key: <aws secret key>
+        endpoint_url: <OPTIONAL: url for S3-compatible blobstore>
 ```
 
 ##### AWS S3
@@ -189,7 +190,11 @@ The `s3:CreateBucket` permission is required because the tool will attempt to cr
 
 Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > Attach).
 
+##### S3-compatible blobstores
+
 By default, backups are sent to AWS S3. To use an S3-compatible blobstore like RiakS2, set the `endpoint_url` property.
+
+Service Backup uses the AWS CLI to backup files to S3, or S3-compatible blobstores. If the endpoint has a self-signed SSL server certificate, then the root CA certificate must be added to the default system trust store. This can be done using [BOSH trusted certs](https://bosh.io/docs/trusted-certs.html).
 
 #### <a id="azure"></a>Azure
 
