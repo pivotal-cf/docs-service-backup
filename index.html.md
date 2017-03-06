@@ -13,7 +13,7 @@ The Service Backup BOSH release backs up a directory on the instance VM it is lo
 
 ### <a id="uploading"></a>Uploading a service backup release
 
-Service Backup is distributed as a BOSH final release. To upload a release to your BOSH director, upload the latest final release tarball from [Pivnet](https://network.pivotal.io/products/service-backups-sdk).
+Service Backup is distributed as a BOSH final release. To upload a release to your BOSH director, upload the latest final release tarball from [Github releases](https://github.com/pivotal-cf-experimental/service-backup-release/releases), or from [S3](https://s3-eu-west-1.amazonaws.com/cf-services-external-builds/service-backup/final/).
 
 ### <a id="configuring"></a>Configuring the manifest
 
