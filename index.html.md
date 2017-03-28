@@ -295,7 +295,7 @@ For example, on S3 the provided path is appended with the current date such that
 
 ### <a id="logging"></a> Logging
 
-Service metrics logs to files in `/var/vcap/sys/log/service-metrics`, and also to syslog.
+Service backup logs to files in `/var/vcap/sys/log/service-backup`, and also to syslog.
 
 For forwarding syslog to a third party syslog drain (e.g. papertrail) we recommend co-locating the [syslog-release.](https://github.com/cloudfoundry/syslog-release)
 
