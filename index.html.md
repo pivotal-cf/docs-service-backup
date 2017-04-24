@@ -35,6 +35,8 @@ properties:
         bucket_path: <path in bucket>
         access_key_id: <aws access key>
         secret_access_key: <aws secret key>
+        endpoint_url: <OPTIONAL: S3 compatible endpoint URL>
+        region: <OPTIONAL: S3 region, required for Signature Version 4 regions>
     source_folder: <directory to back up>
     cron_schedule: <cron schedule>
     backup_user: <OPTIONAL: backup user>
@@ -151,15 +153,25 @@ properties:
   service-backup:
     destinations:
     - type: s3
+      name: <OPTIONAL: destination name>
       config:
         bucket_name: <bucket>
         bucket_path: <path in bucket>
         access_key_id: <aws access key>
         secret_access_key: <aws secret key>
         endpoint_url: <OPTIONAL: url for S3-compatible blobstore>
+        region: <OPTIONAL: S3 region, required for Signature Version 4 regions>
 ```
 
-##### AWS S3
+##### New S3 buckets
+
+If the bucket does not exist in S3, then it will be created in the `us-east-1` region. To create the bucket in another region, configure the `region` property.
+
+##### Existing S3 buckets
+
+If the bucket exists in S3 and requires the [Signature Version 4 Signing Process](http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) then the `region` property must be configured. Some S3 regions require Signature Version 4, e.g. `eu-central-1`. To obtain a bucket's region run `aws s3api get-bucket-location --bucket BUCKET_NAME`.
+
+##### AWS IAM
 
 If you are using AWS ensure that the IAM user has the right permissions. Create a new custom policy (IAM > Policies > Create Policy > Create Your Own Policy) and paste in the following permissions:
 
@@ -203,6 +215,7 @@ properties:
   service-backup:
     destinations:
     - type: azure
+      name: <OPTIONAL: destination name>
       config:
         storage_account: <storage account>
         storage_access_key: <storage key>
@@ -219,6 +232,7 @@ properties:
   service-backup:
     destinations:
     - type: gcs
+      name: <OPTIONAL: destination name>
       config:
         service_account_json: |
           <GCP service account key JSON literal>
@@ -243,6 +257,7 @@ properties:
   service-backup:
     destinations:
     - type: scp
+      name: <OPTIONAL: destination name>
       config:
         user: <ssh username>
         server: <ssh server>
@@ -264,12 +279,14 @@ properties:
   service-backup:
     destinations:
     - type: s3
+      name: <OPTIONAL: destination name>
       config:
         bucket_name: <bucket>
         bucket_path: <path in bucket>
         access_key_id: <aws access key>
         secret_access_key: <aws secret key>
     - type: scp
+      name: <OPTIONAL: destination name>
       config:
         user: <ssh username>
         server: <ssh server>
