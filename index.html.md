@@ -45,6 +45,7 @@ properties:
     missing_properties_message: <OPTIONAL: message to log when properties are missing in the manifest. defaults to 'Provide these missing fields in your manifest.'>
     service_identifier_executable: <OPTIONAL: command that prints service instance ID on stdout>
     cleanup_executable: <OPTIONAL: command to run after each backup>
+    add_deployment_name_to_path: <OPTIONAL: if set true will include deployment name in destination path. Defaults to false>
     alerts: # optional
       product_name: <product name>
       config:
@@ -306,9 +307,13 @@ You can configure multiple destinations of the same type, for example: two S3 bu
 
 ### <a id="locating-the-backups"></a>Locating the backups
 
-The tool will create a date-based folder structure in your destination bucket / folder as follows: `YYYY/MM/DD` and uses the BOSH VM it is running on to calculate the date. For example if your VM is using UTC time, then the folder structure will reflect this.
+If `add_deployment_name_to_path` is configured `true` the tool will add the deployment name in your destination bucket / folder, for example `<bucket-name>/<bucket-path>/<deployment-name>/*`.
+
+The tool will then create a date-based folder structure in your destination bucket / folder as follows: `<bucket-name>/<bucket-path>/YYYY/MM/DD/` or `<bucket-name>/<bucket-path>/<deployment-name>/YYYY/MM/DD/`. The tool uses the BOSH VM it is running on to calculate the date, so for example if your VM is using UTC time, then the folder structure will reflect this.
 
 For example, on S3 the provided path is appended with the current date such that the resultant path is `/my/remote/path/inside/bucket/YYYY/MM/DD/` and hence the backups are accessible at `s3://my-bucket-name/my/remote/path/inside/bucket/YYYY/MM/DD/`.
+
+If `add_deployment_name_to_path` is configured `true` and the deployment is called `deployed-service`, the resultant path will be `/my/remote/path/inside/bucket/deployed-service/YYYY/MM/DD/` and the backups are accessible at `s3://my-bucket-name/my/remote/path/inside/bucket/deployed-service/YYYY/MM/DD/`.
 
 ### <a id="logging"></a> Logging
 
