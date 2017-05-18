@@ -203,6 +203,10 @@ The `s3:CreateBucket` permission is required because the tool will attempt to cr
 
 Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > Attach).
 
+##### <a id="s3"></a>AWS CLI version
+
+The current release uses the `aws` CLI version `aws-cli/1.10.47 Python/2.7.11 Linux/4.4.0-64-generic botocore/1.4.37` to upload.
+
 ##### S3-compatible blobstores
 
 By default, backups are sent to AWS S3. To use an S3-compatible blobstore like RiakS2, set the `endpoint_url` property.
@@ -225,6 +229,10 @@ properties:
 ```
 
 By default, backups are sent to the public Azure blobstore. To use an on-premise blobstore, set the `blob_store_base_url` property.
+
+##### <a id="azure"></a>Azure client version
+
+The current release uses `blobxfer` CLI version `0.11.1` to upload.
 
 #### <a id="gcs"></a>Google Cloud Storage
 
@@ -251,6 +259,10 @@ Storage class: Standard. See [storage classes documentation](https://cloud.googl
 
 If you create the bucket in advance, then you must ensure that the service account has access to write it. "Storage Admin" IAM permission should ensure this.
 
+##### <a id="gcs"></a>Google Cloud Storage version
+
+The current release uses the Google GCS storage golang package at [`commit  86c12b7`](https://github.com/GoogleCloudPlatform/google-cloud-go/tree/86c12b7c8187ffdfe4c155cc6bfca41ad0cabbc5) to upload.
+
 #### <a id="scp"></a>SCP
 
 ```yml
@@ -272,6 +284,9 @@ properties:
 ```
 
 The `fingerprint` field expects the entire output in the format returned by the `ssh-keyscan` utility for the host. If the fingerprint is provided and doesn't match, then the backup will fail. If it's empty then the fingerprint of the host will be requested right before the upload and this would be used instead. A fingerprint should be configured to prevent server spoofing or man-in-the-middle attacks. For more information refer: http://man.openbsd.org/ssh#authentication
+
+##### <a id="scp"></a>SCP version
+The current release leverages the `scp` that is included in the stemcell. Check your stemcell for its `scp` version.
 
 #### <a id="multiple-destinations"></a>Multiple destinations
 
