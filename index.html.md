@@ -205,7 +205,7 @@ Finally, attach this policy to your AWS user (IAM > Policies > Policy Actions > 
 
 ##### <a id="s3"></a>AWS CLI version
 
-The current release uses the `aws` CLI version `aws-cli/1.10.47 Python/2.7.11 Linux/4.4.0-64-generic botocore/1.4.37` to upload.
+The current release uses the `aws` CLI version `aws-cli/1.11.91 Python/3.6.1 Darwin/15.6.0 botocore/1.5.54` to upload.
 
 ##### S3-compatible blobstores
 
@@ -232,7 +232,7 @@ By default, backups are sent to the public Azure blobstore. To use an on-premise
 
 ##### <a id="azure"></a>Azure client version
 
-The current release uses `blobxfer` CLI version `0.11.1` to upload.
+The current release uses `blobxfer` CLI version `0.12.1` to upload.
 
 #### <a id="gcs"></a>Google Cloud Storage
 
