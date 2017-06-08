@@ -3,8 +3,18 @@ title: Service Backup Release Notes
 owner: London Services Enablement
 ---
 
+## <a id="release-notes"></a>v18.1.1
+
 ## <a id="new-features"></a>New Features
+
+- Optionally specifiy `add_deployment_name_to_backup_path`.
+ - If set true will include deployment name in destination path.
 
 ## <a id="breaking-changes"></a>Breaking Changes
 
+- None
+
 ## <a id="bug-fixes"></a>Issues Resolved
+
+- Service backup now will create a new S3 bucket even if endpoint_url is empty string.
+- Document service-alerts in the BOSH release spec.
