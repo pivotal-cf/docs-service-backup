@@ -3,12 +3,13 @@ title: Service Backup Release Notes
 owner: London Services Enablement
 ---
 
-## <a id="release-notes"></a>v18.1.1
+## <a id="release-notes"></a>v18.1.2
 
 ## <a id="new-features"></a>New Features
 
 - Optionally specifiy `add_deployment_name_to_backup_path`.
  - If set true will include deployment name in destination path.
+- Use Golang 1.8.3 in the BOSH Release [18.1.2]
 
 ## <a id="breaking-changes"></a>Breaking Changes
 
@@ -18,3 +19,6 @@ owner: London Services Enablement
 
 - Service backup now will create a new S3 bucket even if endpoint_url is empty string.
 - Document service-alerts in the BOSH release spec.
+- When co-locating [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) or [syslog-release](https://github.com/cloudfoundry/syslog-release)
+there would be duplicate log entries, as service-backup was also writing it's logs to syslog. Now ODB only writes it's logs to `/var/vcap/sys/log`, and anything syslog related
+is handled by syslog-release or syslog-migration-release. [18.1.2]
