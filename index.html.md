@@ -95,7 +95,13 @@ The `source_folder` property names a local path from which backups are uploaded.
 
 #### <a id="preparing-files"></a>Preparing the files to be backed up
 
-The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment. Tokens are split on spaces; first is command to execute and remaining are passed as args to command. This property is optional. If the field is not specified, it will simply be ignored and nothing will be executed.
+The `source_executable` is an optional property that names a command to run before each backup. Any required arguments can be provided space-separated after the executable name. The property is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk.
+
+If the property is not specified, it will simply be ignored and nothing will be executed.
+
+If the property is specified, when the [BOSH lifecycle](https://bosh.io/docs/job-lifecycle.html) runs drain scripts, any running processes of `source_executable` will be identified and will be sent the SIGTERM signal. This allows the executable code to trap the signal and clean up any used resources, such as open files, before potential removal or update of VMs.  
+
+If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment.
 
 #### <a id="cleaning-files"></a>Cleaning up the files which were backed up
 
