@@ -346,6 +346,9 @@ For forwarding syslog to a third party syslog drain (e.g. papertrail) we recomme
 
 Here are log messages you may choose to monitor for. The log messages will appear on one line and have been formatted here for easy reading.
 
+### <a id="internal-checksums"></a> Internal checksums
+If you are publishing a tile to be consumed by Ops Manager 1.8.x or 1.9.x, you will need to build your tile using releases with SHA1 internal checksums. Service Backup releases are published using SHA2 internal checksums. You can convert these releases to use SHA1 internal checksums using the BOSH CLI command `sha1ify-release`.
+
 ### <a id="troubleshooting"></a> Troubleshooting
 
 #### ServiceBackup.Error scheduling job
