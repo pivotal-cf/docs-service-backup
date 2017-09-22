@@ -99,7 +99,7 @@ The `source_executable` is an optional property that names a command to run befo
 
 If the property is not specified, it will simply be ignored and nothing will be executed.
 
-If the property is specified, when the [BOSH lifecycle](https://bosh.io/docs/job-lifecycle.html) runs drain scripts, any running processes of `source_executable` will be identified and will be sent the SIGTERM signal. This allows the executable code to trap the signal and clean up any used resources, such as open files, before potential removal or update of VMs.  
+If the property is specified, when the [BOSH lifecycle](https://bosh.io/docs/job-lifecycle.html) runs stop scripts, any running processes of `source_executable` will be identified and will be sent the SIGTERM signal. This attempts to kill the main service-backup process, which first forwards the signal to any active backup processes and allows them to trap the signal and clean up any used resources, such as open files, before potential removal or update of VMs. If the main service-backup process does not terminate successfully with the SIGTERM signal within 15 seconds, SIGQUIT then SIGKILL signals are sent respectively and the main service-backup process is terminated by force. In the event that SIGQUIT or SIGKILL is sent, the signal will not be forwarded to active backup processes, but no new backup processes will be initiated by the main process.
 
 If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment.
 
