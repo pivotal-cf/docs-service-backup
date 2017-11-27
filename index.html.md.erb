@@ -60,7 +60,7 @@ Backups will be triggered according to the schedule given by the `cron_schedule`
 
 #### <a id="defining-files"></a>Defining the files to be be backed up
 
-The `source_folder` property names a local path from which backups are uploaded. All files in here are uploaded.
+The `source_folder` property names a local path from which backups are uploaded. All files in this location are uploaded, therefore, Pivotal recommends that this directory be separate from the directory that files are written to. This avoids uploading files that are still being written.
 
 #### <a id="preparing-files"></a>Preparing the files to be backed up
 
