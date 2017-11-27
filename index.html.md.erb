@@ -91,11 +91,12 @@ has execute permissions for it.
 
 #### <a id="defining-files"></a>Defining the files to be be backed up
 
-The `source_folder` property names a local path from which backups are uploaded. All files in here are uploaded.
+The `source_folder` property names a local path from which backups are uploaded. All files in this location are uploaded, therefore, Pivotal recommends that this directory be separate from the directory that files are written to. This avoids uploading files that are still being written.
+
 
 #### <a id="preparing-files"></a>Preparing the files to be backed up
 
-The `source_executable` is an optional property that names a command to run before each backup. Any required arguments can be provided space-separated after the executable name. The property is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk.
+The `source_executable` is an optional property that names a command to run before each backup. Any required arguments can be provided space-separated after the executable name. The property is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. The service author may also use the `source_executable` to decide which instance performs the backup. For example, the service author can choose to only trigger backups on `slave` nodes to avoid issues with data consistency.
 
 If the property is not specified, it will simply be ignored and nothing will be executed.
 
@@ -113,7 +114,7 @@ When the optional `alerts` properties are configured an alert will be sent to Sp
 
 #### <a id="correlating"></a>Correlating BOSH instances to Cloud Foundry service instances
 
-BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the Service Author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
+BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the service author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
 
 `{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
 
