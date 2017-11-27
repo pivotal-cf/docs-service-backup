@@ -90,8 +90,7 @@ has execute permissions for it.
 
 #### <a id="defining-files"></a>Defining the files to be be backed up
 
-The `source_folder` property names a local path from which backups are uploaded. All files in here are uploaded.
-
+The `source_folder` property names a local path from which backups are uploaded. All files in this location are uploaded, therefore, Pivotal recommends that this directory be separate from the directory that files are written to. This avoids uploading files that are still being written.
 #### <a id="preparing-files"></a>Preparing the files to be backed up
 
 The `source_executable` property names an executable to run before each backup. This is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment. Tokens are split on spaces; first is command to execute and remaining are passed as args to command. This property is optional. If the field is not specified, it will simply be ignored and nothing will be executed.
