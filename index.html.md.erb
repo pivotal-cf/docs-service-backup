@@ -239,7 +239,7 @@ By default, backups are sent to the public Azure blobstore. To use an on-premise
 
 ##### <a id="azure"></a>Azure client version
 
-The current release uses `blobxfer` CLI version `0.12.1` to upload.
+The current release uses `blobxfer` CLI version `1.0.0` to upload.
 
 #### <a id="gcs"></a>Google Cloud Storage
 
@@ -256,7 +256,13 @@ properties:
         bucket_name: <GCP Storage bucket name, does not have to already exist>
 ```
 
-The service account must have "Storage Admin" IAM permissions. You can generate the JSON key for a service account with `gcloud iam service-accounts keys create key-lives-here.json --iam-account $IAM_ACCOUNT_ADDRESS`.
+The service account must have "Storage Admin" IAM permissions. You can generate the JSON key for a service account with:
+
+```sh
+gcloud iam service-accounts keys \
+  create key-lives-here.json \
+  --iam-account $IAM_ACCOUNT_ADDRESS
+```
 
 If the bucket does not already exist, service-backup will create it. It uses the API default attributes for the bucket, summarised here:
 Bucket ACL rules: for the project that owns the configured service account, owners own the bucket, editors can write the bucket (CRUD objects), viewers can read the bucket.
