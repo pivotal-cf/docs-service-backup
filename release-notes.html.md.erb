@@ -5,55 +5,55 @@ owner: London Services Enablement
 
 ## <a id="release-notes"></a>v18.1.x
 
-### v18.1.11
+### <a id="18111x"></a>v18.1.11
 
 #### New Features
 
-- Bump to Golang 1.10.1
+- Bump to Golang v1.10.1
 
-### v18.1.10
+### <a id="18110x"></a>v18.1.10
 
 #### New Features
 
-- Use Golang 1.10 in the BOSH Release
+- Uses Golang v1.10 in the BOSH Release
 
-### v18.1.9
+### <a id="1819x"></a>v18.1.9
+
+#### New Features
+
+- Outputs an error when uploading a backup to Azure fails
+- Updates blobxfer to v1.0.0
 
 #### Issues Resolved
 
-- Deleting a deployment with service-backup would fail if the service-backup job was in a stopped state
+- Deleting a deployment with service-backup no longer fails if the service-backup job is in a stopped state
 
-#### Issues Resolved
-
-- Output an error when uploading a backup to Azure fails
-- Update blobxfer to version 1.0.0
-
-### v18.1.8
+### <a id="1818x"></a>v18.1.8
 
 #### Issues Resolved
 
 - Fixes bug with timeout when trying to stop a service-backup process when a backup is in progress
 
 
-### v18.1.7
+### <a id="1817x"></a>v18.1.7
 
 #### Issues Resolved
 
-- Now using Python 2.7.13 that resolves CVE-2008-4108, CVE-2013-7040, CVE-2014-4616
+- Now using Python v2.7.13 that resolves CVE-2008-4108, CVE-2013-7040, CVE-2014-4616
 
-### v18.1.6
+### <a id="1816x"></a>v18.1.6
 
 #### New Features
 
-- Use Golang 1.8.4 in the BOSH Release
+- Use Golang v1.8.4 in the BOSH Release
 
-### v18.1.5
+### <a id="1815x"></a>v18.1.5
 
 #### Issues Resolved
 
-- Service backup uses Python 3.6.2, resolves CVEs 159694, 159705, 160254
+- Service backup uses Python v3.6.2, resolves CVEs 159694, 159705, 160254
 
-### v18.1.4
+### <a id="1814x"></a>v18.1.4
 
 #### New Features
 
@@ -61,26 +61,35 @@ owner: London Services Enablement
 
 #### Issues Resolved
 
-- Service backup now sends a [SIGTERM](index.html#preparing-files) to any running `backup_executable` when shutting down. This ensure BOSH can perform lifecycle operations without issue.
+- Service backup now sends a [SIGTERM](index.html#preparing-files) to any running `backup_executable` when shutting down.
+This ensures BOSH can perform lifecycle operations without issue.
 
-### v18.1.3
+### <a id="1813x"></a>v18.1.3
 
 #### New Features
 
-- Log files in `/var/vcap/sys/log/service-backup/*` are no longer truncated when the service-backup process restarts via Monit. We reccomend using [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) to ensure logs are not lost.
+- Log files in `/var/vcap/sys/log/service-backup/*` are no longer truncated when the service-backup process restarts via Monit.
+Pivotal recommends using [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) to ensure logs are not lost.
 
-### v18.1.2
+### <a id="1812x"></a>v18.1.2
 
 #### <a id="new-features"></a>New Features
 
-- Optionally specifiy `add_deployment_name_to_backup_path`.
+- Optionally specify `add_deployment_name_to_backup_path`.
 - If set true will include deployment name in destination path.
-- Use Golang 1.8.3 in the BOSH Release
+- Use Golang v1.8.3 in the BOSH Release
 
 #### <a id="bug-fixes"></a>Issues Resolved
 
 - Service backup now will create a new S3 bucket even if endpoint_url is empty string.
 - Document service-alerts in the BOSH release spec.
-- When co-locating [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) or [syslog-release](https://github.com/cloudfoundry/syslog-release)
-there would be duplicate log entries, as service-backup was also writing it's logs to syslog. Now ODB only writes it's logs to `/var/vcap/sys/log`, and anything syslog related
+- When co-locating [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) or
+[syslog-release](https://github.com/cloudfoundry/syslog-release) there would be duplicate log entries,
+as service-backup was also writing it's logs to syslog.
+Now ODB only writes logs to `/var/vcap/sys/log`, and anything syslog related
 is handled by syslog-release or syslog-migration-release.
+
+## <a id="view"></a> View Release Notes for Another Version
+
+To view the release notes for another product version,
+select the version from the drop-down list at the top of this page.
