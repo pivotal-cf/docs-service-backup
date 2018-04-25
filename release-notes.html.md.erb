@@ -7,11 +7,15 @@ owner: London Services Enablement
 
 ### <a id="18111x"></a>v18.1.11
 
+**Release Date:** April 25, 2018
+
 #### New Features
 
 - Bump to Golang v1.10.1
 
 ### <a id="18110x"></a>v18.1.10
+
+**Release Date:** February 21, 2018
 
 #### New Features
 
@@ -19,27 +23,31 @@ owner: London Services Enablement
 
 ### <a id="1819x"></a>v18.1.9
 
+**Release Date:** December 18, 2017
+
 #### New Features
 
 - Outputs an error when uploading a backup to Azure fails
 - Updates blobxfer to v1.0.0
 
-#### Issues Resolved
+#### Fixed Issues
 
-- Deleting a deployment with service-backup no longer fails if the service-backup job is in a stopped state
+- Deleting a deployment with service-backup no longer fails when the service-backup job is in a stopped state
 
 ### <a id="1818x"></a>v18.1.8
 
-#### Issues Resolved
+**Release Date:** December 7, 2017
 
-- Fixes bug with timeout when trying to stop a service-backup process when a backup is in progress
+#### Fixed Issues
+
+- Fixes a bug with timeout when trying to stop a service-backup process when a backup is in progress
 
 
 ### <a id="1817x"></a>v18.1.7
 
-#### Issues Resolved
+#### Fixed Issues
 
-- Now using Python v2.7.13 that resolves CVE-2008-4108, CVE-2013-7040, CVE-2014-4616
+- Uses Python v2.7.13, which resolves CVE-2008-4108, CVE-2013-7040, CVE-2014-4616
 
 ### <a id="1816x"></a>v18.1.6
 
@@ -49,9 +57,9 @@ owner: London Services Enablement
 
 ### <a id="1815x"></a>v18.1.5
 
-#### Issues Resolved
+#### Fixed Issues
 
-- Service backup uses Python v3.6.2, resolves CVEs 159694, 159705, 160254
+- Uses Python v3.6.2, which resolves CVEs 159694, 159705, 160254
 
 ### <a id="1814x"></a>v18.1.4
 
@@ -59,7 +67,7 @@ owner: London Services Enablement
 
 - Release distributed with SHA2 checksums only
 
-#### Issues Resolved
+#### Fixed Issues
 
 - Service backup now sends a [SIGTERM](index.html#preparing-files) to any running `backup_executable` when shutting down.
 This ensures BOSH can perform lifecycle operations without issue.
@@ -75,14 +83,14 @@ Pivotal recommends using [syslog-migration-release](https://github.com/pivotal-c
 
 #### <a id="new-features"></a>New Features
 
-- Optionally specify `add_deployment_name_to_backup_path`.
-- If set true will include deployment name in destination path.
-- Use Golang v1.8.3 in the BOSH Release
+- You can specify `add_deployment_name_to_backup_path`. 
+If set true, deployment name is included in destination path.
+- Uses Golang v1.8.3 in the BOSH Release
 
-#### <a id="bug-fixes"></a>Issues Resolved
+#### <a id="bug-fixes"></a>Fixed Issues
 
-- Service backup now will create a new S3 bucket even if endpoint_url is empty string.
-- Document service-alerts in the BOSH release spec.
+- Service backup now creates a new S3 bucket even if endpoint_url is an empty string.
+- Document service-alerts are in the BOSH release spec.
 - When co-locating [syslog-migration-release](https://github.com/pivotal-cf/syslog-migration-release) or
 [syslog-release](https://github.com/cloudfoundry/syslog-release) there would be duplicate log entries,
 as service-backup was also writing it's logs to syslog.
