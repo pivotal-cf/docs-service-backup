@@ -1,5 +1,5 @@
 ---
-title: Service Backup v18.1.x Release Notes
+title: Service Backups for PCF Release Notes
 owner: London Services Enablement
 ---
 ## <a id="18115x"></a>v18.1.15
@@ -9,9 +9,8 @@ owner: London Services Enablement
 ### Fixed Issues
 
 - Large backup artifacts can be uploaded to AWS S3.
-There was a problem with the way we were handling the very long output from
-the AWS cli when uploading files larger than about 450MB. Thanks to Andrew
-Garner for raising this and improving our tests to cover it.
+There was a problem with the way Service Backups handled very long output from
+the AWS CLI when uploading files larger than about 450MB.
 
 - Updates golang to v1.11.1.
 
