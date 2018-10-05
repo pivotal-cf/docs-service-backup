@@ -2,6 +2,19 @@
 title: Service Backup v18.1.x Release Notes
 owner: London Services Enablement
 ---
+## <a id="18115x"></a>v18.1.15
+
+**Release Date:** October 5, 2018
+
+### Fixed Issues
+
+- Large backup artifacts can be uploaded to AWS S3.
+There was a problem with the way we were handling the very long output from
+the AWS cli when uploading files larger than about 450MB. Thanks to Andrew
+Garner for raising this and improving our tests to cover it.
+
+- Updates golang to v1.11.1.
+
 ## <a id="18114x"></a>v18.1.14
 
 **Release Date:** September 20, 2018
@@ -9,6 +22,10 @@ owner: London Services Enablement
 ### New Features
 
 - Updates golang to v1.11.0.
+
+### Known issues
+
+- Service Backup can hang indefinitely when uploading files larger than about 450MB to AWS S3
 
 ## <a id="18113x"></a>v18.1.13
 
@@ -21,7 +38,7 @@ owner: London Services Enablement
 
 ### Known issues
 
-There are no known issues for this release.
+- Service Backup can hang indefinitely when uploading files larger than about 450MB to AWS S3
 
 ## <a id="18112x"></a>v18.1.12
 
@@ -33,7 +50,7 @@ There are no known issues for this release.
 
 ### Known issues
 
-There are no known issues for this release.
+- Service Backup can hang indefinitely when uploading files larger than about 450MB to AWS S3
 
 ## <a id="18111x"></a>v18.1.11
 
@@ -46,7 +63,7 @@ There are no known issues for this release.
 
 ### Known issues
 
-There are no known issues for this release.
+- Service Backup can hang indefinitely when uploading files larger than about 450MB to AWS S3
 
 ## <a id="18110x"></a>v18.1.10
 
@@ -55,6 +72,10 @@ There are no known issues for this release.
 ### New Features
 
 - Uses golang v1.10 in the BOSH Release.
+
+### Known issues
+
+- Service Backup can hang indefinitely when uploading files larger than about 450MB to AWS S3
 
 ## <a id="1819x"></a>v18.1.9
 
