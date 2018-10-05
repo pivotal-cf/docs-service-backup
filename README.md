@@ -3,7 +3,7 @@
 
 | Branch name     | Use for|
 |-----------------| ------|
-| master          | When checked on October 5, 2018, this branch was not associated with a pipeline|
+| master          | When checked on October 5, 2018, this branch was not currently associated with a pipeline|
 | v18.1.x         |http://docs-pcf-staging.cfapps.io/svc-sdk/service-backup/18-1/
 | v18.0.x         | live |
 | v17.2.x         | live |
