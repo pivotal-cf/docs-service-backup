@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 # About Branches
 
@@ -41,18 +40,3 @@ Instructions on doing a PR: https://docs.google.com/a/pivotal.io/document/d/14Go
 ## Fixes on branch only
 
 If the fix or enhancement is only relevant to a particular branch, then apply the change to that branch only.
-=======
-# docs-service-backup
-
-## Book Repo
-
-docs-book-services-sdk
-
-## Pipeline
-
-https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-services-sdk
-
-## Staging
-
-http://docs-pcf-staging.cfapps.io/svc-sdk/service-backup/18-1/
->>>>>>> 1670ad8b84511531851b2fded0c6314340b2170a
