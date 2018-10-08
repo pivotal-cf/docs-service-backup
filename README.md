@@ -19,7 +19,7 @@ Book repo: **docs-book-services-sdk**
 
 * **master:** book branch that publishes all the live versions in production. <br>**Pipeline:** https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-services-sdk
 
-# Proccess for working in this repo
+# Process for working in this repo
 
 ## Submit changes to the docs through PRs
 
