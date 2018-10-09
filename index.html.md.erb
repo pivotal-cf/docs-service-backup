@@ -113,7 +113,7 @@ When the optional `alerts` properties are configured an alert will be sent to Sp
 
 #### <a id="correlating"></a>Correlating BOSH instances to Cloud Foundry service instances
 
-BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the Service Author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
+BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the service author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
 
 `{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
 
@@ -238,7 +238,7 @@ By default, backups are sent to the public Azure blobstore. To use an on-premise
 
 ##### <a id="azure"></a>Azure client version
 
-The current release uses `blobxfer` CLI version `0.12.1` to upload.
+The current release uses `blobxfer` CLI version `1.0.0` to upload.
 
 #### <a id="gcs"></a>Google Cloud Storage
 
@@ -255,7 +255,13 @@ properties:
         bucket_name: <GCP Storage bucket name, does not have to already exist>
 ```
 
-The service account must have "Storage Admin" IAM permissions. You can generate the JSON key for a service account with `gcloud iam service-accounts keys create key-lives-here.json --iam-account $IAM_ACCOUNT_ADDRESS`.
+The service account must have "Storage Admin" IAM permissions. You can generate the JSON key for a service account with:
+
+```sh
+gcloud iam service-accounts keys \
+  create key-lives-here.json \
+  --iam-account $IAM_ACCOUNT_ADDRESS
+```
 
 If the bucket does not already exist, service-backup will create it. It uses the API default attributes for the bucket, summarised here:
 Bucket ACL rules: for the project that owns the configured service account, owners own the bucket, editors can write the bucket (CRUD objects), viewers can read the bucket.
@@ -345,6 +351,9 @@ For forwarding syslog to a third party syslog drain (e.g. papertrail) we recomme
 ### <a id="monitoring"></a> Monitoring
 
 Here are log messages you may choose to monitor for. The log messages will appear on one line and have been formatted here for easy reading.
+
+### <a id="internal-checksums"></a> Internal checksums
+If you are publishing a tile to be consumed by Ops Manager 1.8.x or 1.9.x, you will need to build your tile using releases with SHA1 internal checksums. Service Backup releases are published using SHA2 internal checksums. You can convert these releases to use SHA1 internal checksums using the BOSH CLI command `sha1ify-release`.
 
 ### <a id="troubleshooting"></a> Troubleshooting
 
