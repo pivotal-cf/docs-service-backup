@@ -11,15 +11,16 @@ BOSH operators running services (e.g. Redis service broker for Cloud Foundry) ma
 
 The Service Backup BOSH release backs up a directory on the instance VM it is located on to one of several supported destination types. The supported destination types are AWS S3, Azure blobstore, and SCP.
 
-### <a id="uploading"></a>Uploading a service backup release
+### <a id="uploading"></a>Uploading a Service Backup Release
 
 Service Backup is distributed as a BOSH final release. To upload a release to your BOSH director, upload the latest final release tarball from [Pivnet](https://network.pivotal.io/products/service-backups-sdk).
 
-### <a id="configuring"></a>Configuring the manifest
+### <a id="configuring"></a>Configuring the Manifest
 
-Service Backup is designed to be co-located on service instance VMs, and must be included in that service's BOSH deployment manifest.
+Service Backup is designed to be colocated on service instance VMs,
+and must be included in that service's BOSH deployment manifest.
 
-#### <a id="adding-service"></a>Adding service backups to your service deployment
+#### <a id="adding-service"></a>Add Service Backups to Your Service Deployment
 
 Shown below is an template manifest, adding an S3 backup destination to a Redis service deployment. For further information on changing the backup destination, see [link](#backup-destinations).
 
@@ -78,22 +79,22 @@ instance_groups:
     release: service-backup
 ```
 
-#### <a id="configuring-backup-schedule"></a>Configuring the backup schedule
+#### <a id="configuring-backup-schedule"></a>Configure the Backup Schedule
 
 Backups will be triggered according to the schedule given by the `cron_schedule` property. See [robfig/cron](https://godoc.org/github.com/robfig/cron) for cron expression syntax.
 
-#### <a id="configuring-backup-user"></a>Configuring the backup user
+#### <a id="configuring-backup-user"></a>Configure the Backup User
 
 By default the service backup process will run as 'vcap'. This can be configured by setting the `backup_user` property.
 
 If you are also providing your own `source_executable` be sure that the `backup_user` you create
 has execute permissions for it.
 
-#### <a id="defining-files"></a>Defining the files to be be backed up
+#### <a id="defining-files"></a>Defining the Files to be be Backed Up
 
 The `source_folder` property names a local path from which backups are uploaded. All files in this location are uploaded, therefore, Pivotal recommends that this directory be separate from the directory that files are written to. This avoids uploading files that are still being written.
 
-#### <a id="preparing-files"></a>Preparing the files to be backed up
+#### <a id="preparing-files"></a>Preparing the Files to be Backed Up
 
 The `source_executable` is an optional property that names a command to run before each backup. Any required arguments can be provided space-separated after the executable name. The property is useful for services that require some operation to be performed before backing files up, for example triggering a Redis memory dump to disk. The service author may also use the `source_executable` to decide which instance performs the backup. For example, the service author can choose to only trigger backups on `slave` nodes to avoid issues with data consistency.
 
@@ -103,15 +104,15 @@ If the property is specified, when the [BOSH lifecycle](https://bosh.io/docs/job
 
 If a suitable executable is not included in the service release, you can add one by publishing it in a separate release, as its own package and job, and colocating it into the deployment.
 
-#### <a id="cleaning-files"></a>Cleaning up the files which were backed up
+#### <a id="cleaning-files"></a>Cleaning Up the Files which Were Backed Up
 
 The optional `cleanup_executable` property names a local executable to cleanup backups. Tokens are split on spaces; first is command to execute and remaining are passed as args to command.
 
-#### <a id="alerts"></a>Sending an alert when a backup fails
+#### <a id="alerts"></a>Sending an Alert When a Backup Fails
 
 When the optional `alerts` properties are configured an alert will be sent to SpaceDevelopers in the configured `cf_space` when a backup fails. Alerts are sent using the [Cloud Foundry Notifications Service](https://github.com/cloudfoundry-incubator/notifications).
 
-#### <a id="correlating"></a>Correlating BOSH instances to Cloud Foundry service instances
+#### <a id="correlating"></a>Correlating BOSH Instances to Cloud Foundry Service Instances
 
 BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the service author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
 
@@ -119,7 +120,7 @@ BOSH operators might want to correlate BOSH-deployed VM instances with CF servic
 
 Add the optional `service_identifier_executable` key to your manifest (tokens are split on spaces; first is command to execute and remaining are passed as args to command).
 
-#### <a id="naming-backup-destinations"></a>Naming backup destinations
+#### <a id="naming-backup-destinations"></a>Naming Backup Destinations
 
 Each destination can be given an optional `name` property. This will appear in the log messages for uploads to that destination. For example:
 
@@ -127,7 +128,7 @@ Each destination can be given an optional `name` property. This will appear in t
 { "timestamp":"1467629245.010814428", "source":"ServiceBackup", "message":"ServiceBackup.WithIdentifier.about to upload /path/to/file to S3 remote path bucket_name/2016/07/04", "log_level":1, "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "destination_name": "some-destination-name", "identifier": "service_identifier", "session":"1" } }
 ```
 
-#### <a id="identifying-logs-for-a-backup-run"></a>Identifying logs for a backup run
+#### <a id="identifying-logs-for-a-backup-run"></a>Identifying Logs for a Backup Run
 
 The log lines of a particular backup run can be identified by correlating their unique `backup_guid` For example
 
@@ -138,7 +139,7 @@ The log lines of a particular backup run can be identified by correlating their 
 {"timestamp":"1467649696.232805967","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup debug info","log_level":0,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","cmd":"creator-cmd","identifier":"service_identifier","out":"Cleanup Complete\n","session":"1"}}
 ```
 
-#### <a id="manual-backup"></a>Triggering manual service backups
+#### <a id="manual-backup"></a>Triggering Manual Service Backups
 
 BOSH operators might want to trigger a one-off, manual backup. To do this:
 
@@ -332,7 +333,7 @@ You can configure multiple destinations of the same type, for example: two S3 bu
 
 ## <a id="operating"></a>Operating
 
-### <a id="locating-the-backups"></a>Locating the backups
+### <a id="locating-the-backups"></a>Locating the Backups
 
 If `add_deployment_name_to_backup_path` is configured `true` the tool will add the deployment name in your destination bucket / folder, for example `<bucket-name>/<bucket-path>/<deployment-name>/*`.
 
@@ -346,13 +347,15 @@ If `add_deployment_name_to_backup_path` is configured `true` and the deployment 
 
 Service backup logs to files in `/var/vcap/sys/log/service-backup`, and also to syslog.
 
-For forwarding syslog to a third party syslog drain (e.g. papertrail) we recommend co-locating the [syslog-release.](https://github.com/cloudfoundry/syslog-release)
+For forwarding syslog to a third party syslog drain (e.g. papertrail),
+Pivotal recommends colocating the [syslog-release.](https://github.com/cloudfoundry/syslog-release).
 
 ### <a id="monitoring"></a> Monitoring
 
-Here are log messages you may choose to monitor for. The log messages will appear on one line and have been formatted here for easy reading.
+Here are log messages you may choose to monitor for.
+The log messages appear on one line and have been formatted here for easy reading.
 
-### <a id="internal-checksums"></a> Internal checksums
+### <a id="internal-checksums"></a> Internal Checksums
 If you are publishing a tile to be consumed by Ops Manager 1.8.x or 1.9.x, you will need to build your tile using releases with SHA1 internal checksums. Service Backup releases are published using SHA2 internal checksums. You can convert these releases to use SHA1 internal checksums using the BOSH CLI command `sha1ify-release`.
 
 ### <a id="troubleshooting"></a> Troubleshooting
