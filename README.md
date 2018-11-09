@@ -13,7 +13,7 @@
 
 # Book repo for publishing this content
 
-Book repo: **docs-book-services-sdk**
+Book repo: **docs-book-service-backup**
 
 * **edge:** book branch that publishes the next unreleased version, from the **master** content branch. <br>**Pipeline:** https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-services-sdk-edge
 
