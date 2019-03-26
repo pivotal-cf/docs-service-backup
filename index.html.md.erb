@@ -232,12 +232,9 @@ properties:
         storage_access_key: <storage key>
         container: <container name>
         path: <path in container>
-        endpoint: <OPTIONAL: Azure Storage endpoint>
 ```
 
-By default, backups are sent to the public Azure blobstore. If you are not
-using an Azure public region, you can specify a different endpoint name using
-the `endpoint` property.
+By default, backups are sent to the public Azure blobstore. To use an on-premise blobstore, set the `blob_store_base_url` property.
 
 ##### <a id="azure"></a>Azure client version
 
