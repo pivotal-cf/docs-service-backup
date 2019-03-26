@@ -3,33 +3,19 @@ title: Service Backups for PCF Release Notes
 owner: London Services Enablement
 ---
 
-## <a id="1820x"></a>v18.2.0
+## <a id="VERSION"></a>VERSION
 
-**Release Date:** March 26, 2019
+**Release Date:** MONTH DD, YYYY
 
 ### New Features
 
 New features and changes in this release:
 
-- For Azure backups, if you are not connecting to an Azure Public region, you
-can configure the `endpoint` property for the base endpoint name.
-For more information about configuration options for `endpoint`, see
-[blobxfer Command-Line Usage](https://github.com/Azure/blobxfer/blob/master/docs/10-cli-usage.md#connection)
-in GitHub.
-
-- Updates golang to v1.12.1.
 
 ### Resolved Issues
 
 This release fixes the following issues:
 
-- An issue with secure copy (`scp`) where it triggered an error while copying files
-  using `.` as the source directory.
-  This was due to `scp` no longer allowing the use of `.` as a source directory as a
-  fix for CVE-2018-20685.
-
-    For more information about stemcells containing the affected version of `scp`,
-    see [USN-3885-1](https://www.cloudfoundry.org/blog/usn-3885-1/).
 
 ### Known Issues
 
