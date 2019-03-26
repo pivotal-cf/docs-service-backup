@@ -21,11 +21,12 @@ in GitHub.
 Fixed issues in this release:
 
 - Fixes an issue with secure copy (`scp`) where it triggered an error while copying files
-using `.` as the source directory.
-This was due to `scp` no longer allowing the use of `.` as a source directory as a
-fix for CVE-2018-20685.
-For more information about stemcells containing the affected version of `scp`,
-see [USN-3885-1]https://www.cloudfoundry.org/blog/usn-3885-1/).
+  using `.` as the source directory.
+  This was due to `scp` no longer allowing the use of `.` as a source directory as a
+  fix for CVE-2018-20685.
+
+    For more information about stemcells containing the affected version of `scp`,
+    see [USN-3885-1](https://www.cloudfoundry.org/blog/usn-3885-1/).
 
 - Updates golang to v1.12.1.
 
