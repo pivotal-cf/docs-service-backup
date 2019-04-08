@@ -3,13 +3,14 @@
 
 | Branch name     | Use for|
 |-----------------| ------|
-| master          | When checked on October 5, 2018, this branch was not currently associated with a pipeline|
-| v18.1.x         |http://docs-pcf-staging.cfapps.io/svc-sdk/service-backup/18-1/
-| v18.0.x         | live |
-| v17.2.x         | live |
-| v17.1.x         | live |
-| v17.0.x         | live | 
-| v16.0.x         | live | 
+| master          | This branch is not currently associated with a pipeline. On March 26, 2019, this branch was identical to v18.2.x.|
+| v18.2.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-2/ |
+| v18.1.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-1/ |
+| v18.0.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-0/ |
+| v17.2.x         | live http://docs.pivotal.io/svc-sdk/service-backup/17-2/ |
+| v17.1.x         | live http://docs.pivotal.io/svc-sdk/service-backup/17-1/ |
+| v17.0.x         | live http://docs.pivotal.io/svc-sdk/service-backup/17-0/ | 
+| v16.0.x         | live http://docs.pivotal.io/svc-sdk/service-backup/16-0/ | 
 
 # Book repo for publishing this content
 
