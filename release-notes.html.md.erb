@@ -13,7 +13,7 @@ New features and changes in this release:
 
 - Updates golang to v1.12.5
 
-- Improved testing to verify the case when a service-backup process is stopped with a  SIGTERM, it should signal cron process manager and not start a new backup.
+- When a service-backup process is stopped with a SIGTERM, a test runs to check that the process termination signals the cron process manager and does not start a new backup.
 
 
 ### Resolved Issues
