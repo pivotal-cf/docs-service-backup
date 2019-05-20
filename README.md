@@ -3,7 +3,7 @@
 
 | Branch name     | Use for|
 |-----------------| ------|
-| master          | This branch is staging: docs-pcf-staging.cfapps.io/svc-sdk/service-backup/0-n |
+| master          | This branch is staging: http://docs-pcf-staging.cfapps.io/svc-sdk/service-backup/0-n |
 | v18.2.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-2/ |
 | v18.1.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-1/ |
 | v18.0.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-0/ |
