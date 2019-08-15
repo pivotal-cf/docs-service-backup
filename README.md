@@ -3,7 +3,8 @@
 
 | Branch name     | Use for|
 |-----------------| ------|
-| master          | When checked on October 5, 2018, this branch was not currently associated with a pipeline|
+| master          | This branch is staging: http://docs-pcf-staging.cfapps.io/svc-sdk/service-backup/0-n |
+| v18.3.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-3/ |
 | v18.2.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-2/ |
 | v18.1.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-1/ |
 | v18.0.x         | live http://docs.pivotal.io/svc-sdk/service-backup/18-0/ |
