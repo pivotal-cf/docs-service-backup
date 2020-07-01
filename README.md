@@ -15,14 +15,7 @@
 
 # Book repo for publishing this content
 
-Book repo: **docs-book-service-backup**
-
-* **edge:** book branch that publishes the next unreleased version, from the **master** content branch. <br>**Pipeline:** https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-services-sdk-edge
-
-**Note:** The **master** content branch needs to be pushed manually in the Concourse UI. Any commits to this branch will
-not be triggered automatically.
-
-* **master:** book branch that publishes all the live versions in production. <br>**Pipeline:** https://concourse.run.pivotal.io/teams/cf-docs/pipelines/cf-services-sdk
+Book repo: [**docs-book-service-backup**](https://github.com/pivotal-cf/docs-book-service-backup/).
 
 # Process for working in this repo
 
