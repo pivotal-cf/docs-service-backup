@@ -13,11 +13,14 @@ owner: London Services Enablement
 
 New features and changes in this release:
 
-- Timestamps are now logged in a human-readable format.
-- Bumped Go to v1.16.3.
+- **Timestamps:** Now logged in a human-readable format.
+- **Go:** Updated to v1.16.3.
 
 ### Resolved Issues
-- Fixed an issue where sending alerts was being attempted, even though alerting configuration was not provided.
+
+This release has the following fix:
+
+- **Fixes an issue with alerts:** Service Backup no longer attempts to send alerts if you have not provided alerting configuration. 
 
 ### Known Issues
 
