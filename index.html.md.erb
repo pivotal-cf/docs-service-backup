@@ -116,7 +116,7 @@ When the optional `alerts` properties are configured an alert will be sent to Sp
 BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the service author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For example:
 
 ```
-{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }
+{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": "2021-04-05T16:28:16.000000000Z",, "log_level": "info" }
 ```
 
 Add the optional `service_identifier_executable` key to your manifest (tokens are split on spaces; first is command to execute and remaining are passed as args to command).
@@ -126,7 +126,7 @@ Add the optional `service_identifier_executable` key to your manifest (tokens ar
 Each destination can be given an optional `name` property. This will appear in the log messages for uploads to that destination. For example:
 
 ```json
-{ "timestamp":"1467629245.010814428", "source":"ServiceBackup", "message":"ServiceBackup.WithIdentifier.about to upload /path/to/file to S3 remote path bucket_name/2016/07/04", "log_level":1, "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "destination_name": "some-destination-name", "identifier": "service_identifier", "session":"1" } }
+{ "timestamp":"2021-04-05T16:28:16.000000000Z", "source":"ServiceBackup", "message":"ServiceBackup.WithIdentifier.about to upload /path/to/file to S3 remote path bucket_name/2016/07/04", "log_level":"info", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "destination_name": "some-destination-name", "identifier": "service_identifier", "session":"1" } }
 ```
 
 #### <a id="identifying-logs-for-a-backup-run"></a>Identifying Logs for a Backup Run
@@ -134,10 +134,10 @@ Each destination can be given an optional `name` property. This will appear in t
 The log lines of a particular backup run can be identified by correlating their unique `backup_guid` For example
 
 ```json
-{"timestamp":"1467649696.229321241","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
-{"timestamp":"1467649696.229343414","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup completed successfully","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","duration_in_seconds":8.081000000000001e-06,"identifier":"service_identifier","session":"1","size_in_bytes":200}}
-{"timestamp":"1467649696.229365349","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup started","log_level":1,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
-{"timestamp":"1467649696.232805967","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup debug info","log_level":0,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","cmd":"creator-cmd","identifier":"service_identifier","out":"Cleanup Complete\n","session":"1"}}
+{"timestamp":"2021-04-05T16:28:16.000000000Z","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup started","log_level":"info","data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
+{"timestamp":"2021-04-05T16:28:17.000000000Z","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Upload backup completed successfully","log_level":"info","data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","duration_in_seconds":8.081000000000001e-06,"identifier":"service_identifier","session":"1","size_in_bytes":200}}
+{"timestamp":"2021-04-05T16:28:17.000000000Z","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup started","log_level":"info","data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","identifier":"service_identifier","session":"1"}}
+{"timestamp":"2021-04-05T16:28:17.000000000Z","source":"ServiceBackup","message":"ServiceBackup.WithIdentifier.Cleanup debug info","log_level":0,"data":{"backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61","cmd":"creator-cmd","identifier":"service_identifier","out":"Cleanup Complete\n","session":"1"}}
 ```
 
 #### <a id="manual-backup"></a>Triggering Manual Service Backups
@@ -370,10 +370,10 @@ This error occurs when the cron schedule is invalid, e.g. "* * * * * 99":
 
 ```json
 {
-  "timestamp": "1475848593.233430624",
+  "timestamp": "2021-04-05T16:28:16.000000000Z",
   "source": "ServiceBackup",
   "message": "ServiceBackup.Error scheduling job",
-  "log_level": 2,
+  "log_level": "error",
   "data": {
     "error": "End of range (99) above maximum (6): 99"
   }
@@ -386,10 +386,10 @@ This warning will be logged when no destination is provided.
 
 ```json
 {
-  "timestamp": "1475848311.113728523",
+  "timestamp": "2021-04-05T16:28:16.000000000Z",
   "source": "ServiceBackup",
   "message": "ServiceBackup.No destination provided - skipping backup",
-  "log_level": 1,
+  "log_level": "info",
   "data": {}
 }
 ```
@@ -400,10 +400,10 @@ This error will be logged when performing a backup fails, e.g. when the backup c
 
 ```json
 {
-  "timestamp": "1475848125.018121719",
+  "timestamp": "2021-04-05T16:28:16.000000000Z",
   "source": "ServiceBackup",
   "message": "ServiceBackup.Perform backup completed with error",
-  "log_level": 2,
+  "log_level": "error",
   "data": {
     "backup_guid": "3ebc4d08-62a3-4919-a02c-841c1afe51d0",
     "error": "exit status 1"
@@ -417,10 +417,10 @@ This error will occur when uploading a backup fails. For example, when the S3 cr
 
 ```json
 {
-  "timestamp": "1475847877.024758816",
+  "timestamp": "2021-04-05T16:28:16.000000000Z",
   "source": "ServiceBackup",
   "message": "ServiceBackup.Upload backup completed with error",
-  "log_level": 2,
+  "log_level": "error",
   "data": {
     "backup_guid": "3ae36910-3c1d-4e53-b28e-62105aee1e79",
     "error": "error in create bucket: exit status 1, output: make_bucket failed: s3://doesnotexist5f7c0f16-bba4-49c9-9f60-371366edea3b An error occurred (AccessDenied) when calling the CreateBucket operation: Access Denied\n"
@@ -432,10 +432,10 @@ And when the SCP host fingerprint is invalid:
 
 ```json
 {
-  "timestamp": "1475850125.042400837",
+  "timestamp": "2021-04-05T16:28:16.000000000Z",
   "source": "ServiceBackup",
   "message": "ServiceBackup.Upload backup completed with error",
-  "log_level": 2,
+  "log_level": "error",
   "data": {
     "backup_guid": "7bd784ae-2375-43fd-bd9b-b4a43c2368c2",
     "error": "error checking if remote path exists: 'exit status 255', output: 'No ECDSA host key is known for localhost and you have requested strict checking.\r\nHost key verification failed.\r\n'"
@@ -449,10 +449,10 @@ This error will occur when the tool is configured with `exit_if_in_progress: tru
 
 ```json
 {
-  "timestamp": "1475846665.002161264",
+  "timestamp": "2021-04-05T16:28:16.000000000Z",
   "source": "ServiceBackup",
   "message": "ServiceBackup.Backup currently in progress, exiting. Another backup will not be able to start until this is completed.",
-  "log_level": 2,
+  "log_level": "error",
   "data": {
     "backup_guid": "94ca42ed-c289-4b15-a76a-23fe55d4955b",
     "error": "backup operation rejected"
