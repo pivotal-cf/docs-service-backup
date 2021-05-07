@@ -113,9 +113,11 @@ When the optional `alerts` properties are configured an alert will be sent to Sp
 
 #### <a id="correlating"></a>Correlating BOSH Instances to Cloud Foundry Service Instances
 
-BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the service author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For e.g.
+BOSH operators might want to correlate BOSH-deployed VM instances with CF service instances, in which case the service author must provide a binary that returns a string identifier for your service instance. This will appear in all log messages under the data element `identifier`. For example:
 
-`{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }`
+```
+{ "source": "ServiceBackup", "message": "doing-stuff", "data": { "backup_guid":"244eadb0-91e7-45da-9a7f-3616a59a6e61", "identifier": "service_identifier" }, "timestamp": 1232345, "log_level": 1 }
+```
 
 Add the optional `service_identifier_executable` key to your manifest (tokens are split on spaces; first is command to execute and remaining are passed as args to command).
 
