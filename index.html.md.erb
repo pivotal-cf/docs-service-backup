@@ -145,9 +145,9 @@ BOSH operators might want to trigger a one-off, manual backup. To do this:
 1. ssh onto a BOSH-deployed VM that has a service-backup job running on it.
 1. Execute `/var/vcap/jobs/service-backup/bin/manual-backup`.
 
-#### <a id="disabling"></a>Disabling Service Backups
+#### <a id="deactivating"></a>Deactivating Service Backups
 
-Backups can be disabled by removing the `service-backup` section from your manifest and then redeploying. You can still leave the job on your instance group if you wish.
+Backups can be deactivated by removing the `service-backup` section from your manifest and then redeploying. You can still leave the job on your instance group if you wish.
 
 ### <a id="backup-destinations"></a>Backup destinations
 
